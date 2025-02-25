@@ -1,0 +1,229 @@
+﻿@model IEnumerable<QuanLyYTe.Models.KSK_BenhNgheNghiep>
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+@{
+    string MNV = ViewBag.ID_NV;
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div style="display: flex;padding-top: 1%;">
+                                <div style="text-align:left;width:89%">
+                                    <img style="width: 15%;" src="~/images/logoHP.png">
+                                    <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                        <b>
+                                            CÔNG TY CỔ PHẦN THÉP<br />
+                                            HÒA PHÁT DUNG QUẤT
+                                        </b>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="@Url.Action("Index","SoTheoDoi_KSK", new{search = MNV})">
+                                        <button type="button" href='' class="btn btn-warning"><i class="bi bi-arrow-left-square" style="padding-right: 5px;"></i> Trở về</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading">
+                                        <div style="text-align:center;">
+                                            <h4 style="margin-bottom:0px;">
+                                                <b>
+                                                    DANH SÁCH CBNV KHÁM SỨC KHỎE BỆNH NGHỀ NGHIỆP
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Mã nhân viên</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Họ và tên</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày sinh</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Vị trí lao động</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Vị trí làm việc</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Kíp</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày tạo</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+
+                                                    <td> @item.MaNV</td>
+                                                    <td> @item.HoTen</td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgaySinh;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center"> @item.TenPhongBan</td>
+                                                    <td> @item.TenViTriLaoDong </td>
+                                                    <td class="text-center"> @item.TenViTri</td>
+                                                    <td class="text-center"> @item.TenKip</td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NLDS = (DateTime)item.NgayLenDanhSach;
+                                                        }
+                                                        @NLDS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "ThoiHan_KSK_BNN", new { id = item.ID_KSK_BNN,page = pageNo })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.HoTen')">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_KSK_BNN" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_KSK_BNN" role="dialog" data-url='@Url.Action("Edit","ThoiHan_KSK_BNN",new{id = item.ID_KSK_BNN,page = pageNo})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_KSK_BNN").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_KSK_BNN').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_KSK_BNN").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA VỊ TRÍ LAO ĐỘNG");
+                                                                    $("#myModaleF_@item.ID_KSK_BNN").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+
+                                                        <a title="" class="feather icon-align-justify" id="@item.ID_KSK_BNN" href="@Url.Action("Index","ChiTiet_ThoiHan_KSK_BNN", new { id = item.ID_KSK_BNN})"></a>
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        string IDPhongBan = Context.Request.Query["IDPhongBan"];
+                                        string begind = Context.Request.Query["begind"];
+                                        string endd = Context.Request.Query["endd"];
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="ThoiHan_KSK_BNN" asp-action="Deatail" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@pge">@pge</a>
+                                                </li>
+
+                                            }
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="ThoiHan_KSK_BNN" asp-action="Deatail" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="ThoiHan_KSK_BNN" asp-action="Deatail" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //Show datetime current
+    $(document).ready(function () {
+        var dateNewFormat, onlyDate, today = new Date();
+
+        dateNewFormat = today.getFullYear() + '-';
+        if (today.getMonth() >= 9) {
+
+            dateNewFormat += (today.getMonth() + 1);
+        }
+        else {
+            dateNewFormat += '0' + (today.getMonth() + 1);
+        }
+
+        onlyDate = today.getDate();
+        if (onlyDate.toString().length == 2) {
+
+            dateNewFormat += "-" + onlyDate;
+        }
+        else {
+            dateNewFormat += '-0' + onlyDate;
+        }
+        if ($('#begind').val() == '') {
+            $('#begind').val(dateNewFormat);
+        }
+        if ($('#endd').val() == '') {
+            $('#endd').val(dateNewFormat);
+        }
+    });
+    //Import Excel
+    $('#btn-Import').click(function () {
+        var url = $('#myModalImportExcel').data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("IMPORT DANH SÁCH KẾT QUẢ ");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+
+    $("#btn-search").on('click', function () {
+        var IDPhongBan = $('#IDPhongBan').val();
+        window.location.href = '@Url.Action("Index", "ThoiHan_KSK_BNN")?IDPhongBan=' + IDPhongBan + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+    });
+    $('#btn-Export').click(function () {
+        var IDPhongBan = $('#IDPhongBan').val();
+        window.location.href = '@Url.Action("ExportToExcel", "ThoiHan_KSK_BNN")?IDPhongBan=' + $('#IDPhongBan').val() + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+
+    });
+    $("#IDPhongBan").chosen({
+        width: "100%"
+    });
+</script>

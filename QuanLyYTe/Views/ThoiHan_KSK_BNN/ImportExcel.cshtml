@@ -1,0 +1,27 @@
+﻿@model QuanLyYTe.Models.KSK_BenhNgheNghiep
+
+@using (Html.BeginForm("ImportExcel", "ThoiHan_KSK_BNN", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Chọn file Excel Import</label>
+                        <input style="height: 41px;" type="file" id="file" name="file" class="form-control" onchange="checkfile(this);" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="text-align: end;">
+                <a href="@Url.Action("TestDownloadPCF", "ThoiHan_KSK_BNN")" style="font-size:15px;padding-right: 35%;"> <i class="fa fa-download" aria-hidden="true"></i> Tải biểu mẫu Import </a>
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,307 @@
+﻿@using QuanLyYTe.Models
+@model IEnumerable<QuanLyYTe.Models.SoCapCuu>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+@{
+    var List = ViewData["TuyenBenhVien"] as List<QuanLyYTe.Models.TuyenBenhVien>;
+    string MNV = ViewBag.ID_NV;
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div>
+                                <div style="display: flex;padding-top: 1%;">
+                                    <div style="text-align:left;width:89%">
+                                        <img style="width: 15%;" src="~/images/logoHP.png">
+                                        <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                            <b>
+                                                CÔNG TY CỔ PHẦN THÉP<br />
+                                                HÒA PHÁT DUNG QUẤT
+                                            </b>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a href="@Url.Action("Index","SoTheoDoi_KSK", new{search = MNV})">
+                                            <button type="button" href='' class="btn btn-warning"><i class="bi bi-arrow-left-square" style="padding-right: 5px;"></i> Trở về</button>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="app-page-title" style="display: contents;">
+                                    <div class="page-title-wrapper" style=" display: contents;">
+                                        <div class="page-title-heading">
+                                            <div style="text-align:center;">
+                                                <h4>
+                                                    <b>
+                                                        SỔ THEO DÕI CẤP CỨU TAI NẠN, BỆNH LÝ TẠI CƠ SỞ LAO ĐỘNG
+                                                    </b>
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="width:84vw;">
+                                    <table class="table table-bordered table-hover" id="table" style="width:150vw;" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align: middle; position: sticky; left: 0;">STT</th>
+                                                <th width="250px" rowspan="2" class="text-center" style="vertical-align: middle; position: sticky; left: 30px;">Họ và tên</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày, tháng, năm</th>
+                                                <th width="200px" colspan="2" class="text-center" style="vertical-align:middle">Ngày sinh/Giới tính</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Thời gian tiếp nhận</th>
+                                                <th width="250px" colspan="2" class="text-center" style="vertical-align:middle">Phân loại TN/Bệnh lý </th>
+                                                <th width="150px" colspan="1" class="text-center" style="vertical-align:middle">Tình trạng nạn nhân, thương tích, bệnh lý</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Kết quả giám định tỷ lệ mất sức lao động</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Biên bản 24h</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Tuyến bệnh viện</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Tổng chi phí</th>
+                                                <th width="200px" colspan="2" class="text-center" style="vertical-align:middle">Kết quả kiểm tra SK sau khi trở lại làm việc (nếu cần)</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center" width="50px">
+                                                    Nam
+                                                </th>
+                                                <th class="text-center" width="50px">
+                                                    Nữ
+                                                </th>
+
+
+                                                <th class="text-center" width="170px">
+                                                    Tai nạn
+                                                </th>
+                                                <th class="text-center" width="170px">
+                                                    Bệnh lý
+                                                </th>
+
+
+                                                <th class="text-center" width="50px">
+                                                    Diễn biến
+                                                </th>
+
+
+                                                <th class="text-center" width="50px">
+                                                    Đạt
+                                                </th>
+                                                <th class="text-center" width="50px">
+                                                    Không đạt
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center" style="vertical-align: middle; position: sticky; left: 0; background-color: #4680ff; color: white;">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+
+                                                    <td style="vertical-align: middle; position: sticky; left: 40px; background-color: #4680ff; color: white;"> @item.MaNV - @item.HoTen </td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime Ngay = (DateTime)item.NgayThangNam;
+                                                        }
+                                                        @Ngay.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    @if (item.ID_GioiTinh == 1)
+                                                    {
+                                                        <td class="text-center">
+                                                            @{
+                                                                DateTime NgaySinh = (DateTime)item.NgaySinh;
+                                                            }
+                                                            @NgaySinh.ToString("dd/MM/yyyy")
+                                                        </td>
+                                                        <td>
+                                                        </td>
+                                                    }
+                                                    @if (item.ID_GioiTinh == 2)
+                                                    {
+                                                        <td>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @{
+                                                                DateTime NgaySinh = (DateTime)item.NgaySinh;
+                                                            }
+                                                            @NgaySinh.ToString("dd/MM/yyyy")
+                                                        </td>
+                                                    }
+
+                                                    <td class="text-center">
+                                                        @item.ThoiGianTiepNhan
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @item.TenTaiNan
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @item.TenBenhLy
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @item.DienBien
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @item.KetQuaGiamDinh
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.TenPhongBan
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.BienBan24h
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action("Index", "TuyenBenhVien", new { id = item.ID_SCC})" title="Xem chi tiết tuyến bệnh viện">
+                                                            <span style="width:120px;">Xem chi tiết tuyến bệnh viện</span>
+                                                        </a>
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        @{
+                                                            var Sum = List.Where(x => x.ID_SCC == item.ID_SCC).Sum(x => x.ThanhToan);
+                                                            int TongChiPhi = Convert.ToInt32(Sum);
+                                                        }
+                                                        @TongChiPhi.ToString("#,##0 VNĐ")
+                                                    </td>
+                                                    @if (item.KetQuaKT_SK == "Đạt")
+                                                    {
+                                                        <td class="text-center">
+                                                            <span>
+                                                                X
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                        </td>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <span>
+                                                                X
+                                                            </span>
+                                                        </td>
+                                                    }
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "SoCapCuu", new { id = item.ID_SCC })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.HoTen')">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_SCC" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_SCC" role="dialog" data-url='@Url.Action("Edit","SoCapCuu",new{id = item.ID_SCC})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_SCC").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_SCC').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_SCC").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA VỊ TRÍ LAO ĐỘNG");
+                                                                    $("#myModaleF_@item.ID_SCC").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="SoCapCuu" asp-action="Deatail" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="SoCapCuu" asp-action="Deatail" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="SoCapCuu" asp-action="Deatail" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI TUYỂN DỤNG");
+            $("#myModal").modal('show');
+        });
+    });
+
+    //Import Excel
+    $('#btn-Import').click(function () {
+        var url = $('#myModalImportExcel').data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("IMPORT DANH SÁCH");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "SoCapCuu")?search=' + search;
+    });
+</script>

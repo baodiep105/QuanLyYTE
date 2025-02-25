@@ -1,0 +1,249 @@
+﻿@model IEnumerable<QuanLyYTe.Models.SoTheoDoi_KSK>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+@{
+    var List = ViewData["KSK_DinhKy"] as List<QuanLyYTe.Models.KSK_DinhKy>;
+    var List_PL = ViewData["PhanLoaiKSK"] as List<QuanLyYTe.Models.PhanLoaiKSK>;
+    var List_VTLD = ViewData["ViTriLaoDong"] as List<QuanLyYTe.Models.ViTriLaoDong>;
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div>
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                        </div>
+                                        <div class="col-md-4" style="text-align: right;">
+                                      
+                                            <button id="btn-Import" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-upload"></i> Import Excel</button>
+                                            <div class="modal fade" id="myModalImportExcel" role="dialog" data-url='@Url.Action("ImportExcel","SoTheoDoi_KSK")'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="text-align:left;width:89%">
+                                        <img style="width: 15%;" src="~/images/logoHP.png">
+                                        <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                            <b>
+                                                CÔNG TY CỔ PHẦN THÉP<br />
+                                                HÒA PHÁT DUNG QUẤT
+                                            </b>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="app-page-title" style="display: contents;">
+                                    <div class="page-title-wrapper" style=" display: contents;">
+                                        <div class="page-title-heading">
+                                            <div style="text-align:center;">
+                                                <h4 style="margin:0px;">
+                                                    <b>
+                                                        SỔ THEO DÕI SỨC KHỎE NGƯỜI LAO ĐỘNG
+                                                    </b>
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="width:84vw;overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" style="width:150vw;" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align: middle; position: sticky; left: 0;">STT</th>
+                                                <th width="250px" rowspan="2" class="text-center" style="vertical-align: middle; position: sticky; left: 30px;">Họ và tên</th>
+                                                <th width="250px" rowspan="2" class="text-center" style="vertical-align:middle">Vị trí làm việc </th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Phân loại lao động</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Phân loại sức khỏe</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày sinh</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Giới tính</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày nhận việc</th>
+                                                <th width="50px" colspan="5" class="text-center" style="vertical-align:middle">Loại khám sức khỏe</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                            <tr>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">KSK NV mới</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">KSK sau ốm, TNLĐ, TNGT</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">KSK chuyển vị trí</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">KSK định kỳ</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Khám phát hiện BNN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center" style="vertical-align: middle; position: sticky; left: 0; background-color: #4680ff; color: white;">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+
+                                                    <td style="vertical-align: middle; position: sticky; left: 40px; background-color: #4680ff; color: white;">
+                                                        @item.MaNV - @item.HoTen 
+                                                    </td>
+                                                    <td>
+                                                        @item.TenViTri
+                                                    </td>
+                                                    <td>@item.TenLoai</td>
+                                                    <td>@item.TenPLSK</td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgaySinh;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center"> @item.TenGioiTinh</td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NNV = (DateTime)item.NgayNhanViec;
+                                                        }
+                                                        @NNV.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action("Deatail", "KSK_TuyenDung", new { search = item.CCCD})" title="KSK NV mới">
+                                                            <span style="width:120px;">Xem chi tiết kết quả </span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action("Deatail", "SoCapCuu", new { ID_NV = item.ID_NV})" title="KSK sau ốm, TNLĐ, TNGT">
+                                                            <span style="width:120px;">Xem chi tiết kết quả</span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action("Deatail", "KSK_ChuyenViTri", new { ID_NV = item.ID_NV})" title="KSK chuyển vị trí">
+                                                            <span style="width:120px;">Xem chi tiết kết quả</span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action("Deatail", "KSK_DinhKy", new { ID_NV = item.ID_NV})" title="KSK định kỳ">
+                                                            <span style="width:120px;">Xem chi tiết kết quả</span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="@Url.Action("index", "ThoiHan_KSK_BNN", new { ID_NV = item.ID_NV})" title="Khám phát hiện BNN">
+                                                            <span style="width:120px;">Xem chi tiết kết quả</span>
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "SoTheoDoi_KSK", new { id = item.ID_STD })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.ID_STD')">
+                                                        </a>
+
+
+                                                        <a class="btn-edit bi bi-pencil-square" data-url='@Url.Action("Edit", "SoTheoDoi_KSK", new { id = item.ID_NV })' title="Chỉnh sửa" style="cursor:pointer"></a>
+                                                        <div class="modal myModaleF "  role="dialog"></div>
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="SoTheoDoi_KSK" asp-action="Index" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="SoTheoDoi_KSK" asp-action="Index" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="SoTheoDoi_KSK" asp-action="Index" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI VỊ TRÍ LAO ĐỘNG");
+            $("#myModal").modal('show');
+        });
+    });
+
+    //Import Excel
+    $('#btn-Import').click(function () {
+        var url = $('#myModalImportExcel').data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("IMPORT DANH SÁCH CBNV");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "SoTheoDoi_KSK")?search=' + search;
+    });
+      $(".btn-edit").click(function () {
+        var url = $(this).data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("CHỈNH SỨA VỊ TRÍ LAO ĐỘNG");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+</script>

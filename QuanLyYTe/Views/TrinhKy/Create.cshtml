@@ -1,0 +1,56 @@
+﻿@model QuanLyYTe.Models.TrinhKy
+
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+
+
+@using (Html.BeginForm("Create", "TrinhKy", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Nội dung trích yếu</label>
+                        @Html.EditorFor(model => model.NoiDung, new { htmlAttributes = new { @class = "form-control", placeholder = "Nội dung trích yếu", @id = "NoiDung" } })
+                        @Html.ValidationMessageFor(model => model.NoiDung, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Bộ phận nhà máy</label>
+                        @Html.DropDownListFor(model => model.ID_PhongBan, ViewBag.PBList as SelectList, "---- Chọn bộ phận nhà máy ----", new { @style="text-align: center;", @id = "ID_PhongBan", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ID_PhongBan, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Ngày trình ký</label>
+                        @Html.EditorFor(model => model.NgayTrinhKy, new { @value = DateTime.Today, htmlAttributes = new { @class = "form-control", @type = "date", placeholder = "Ngày trình ký", @id = "NgayTrinhKy" } })
+                        @Html.ValidationMessageFor(model => model.NgayTrinhKy, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Chọn file Excel Import</label>
+                        <input style="height: 41px;" type="file" id="file" name="file" class="form-control" onchange="checkfile(this);" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <a href="@Url.Action("TestDownloadPCF", "TrinhKy")" style="font-size:15px;padding-right: 35%;"> <i class="fa fa-download" aria-hidden="true"></i> Tải biểu mẫu Import </a>
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $("#ID_PhongBan").chosen({
+        width: "100%"
+    });
+</script>

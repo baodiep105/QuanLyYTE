@@ -1,0 +1,195 @@
+﻿@model IEnumerable<QuanLyYTe.Models.LoaiThuoc>
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+
+                            <div>
+
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                        </div>
+                                        <div class="col-md-2" style="text-align:left;">
+                                            <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                        </div>
+                                        <div class="col-md-4" style="text-align: right;">
+                                            <button id="btn-add" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-search"></i> Thêm mới</button>
+                                            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","DanhSachThuoc")'></div>
+
+                                            <button id="btn-Import" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-upload"></i> Import Excel</button>
+                                            <div class="modal fade" id="myModalImportExcel" role="dialog" data-url='@Url.Action("ImportExcel","LoaiThuoc")'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="text-align:left;width:89%">
+                                        <img style="width: 15%;" src="~/images/logoHP.png">
+                                        <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                            <b>
+                                                CÔNG TY CỔ PHẦN THÉP<br />
+                                                HÒA PHÁT DUNG QUẤT
+                                            </b>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                    </div>
+
+                                </div>
+                                <div class="app-page-title" style="display: contents;">
+                                    <div class="page-title-wrapper" style=" display: contents;">
+                                        <div class="page-title-heading">
+                                            <div style="text-align:center;">
+                                                <h4 style="margin:0px;">
+                                                    <b>
+                                                        DANH SÁCH LOẠI THUỐC
+                                                    </b>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="width:84vw;overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center" width="10px">STT</th>
+                                                <th class="text-center" width="400px">Tên yếu tố độc hại</th>
+                                                <th class="text-center" width="10px">Thao tác</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td> @item.TenThuoc </td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "DanhSachThuoc", new { id = item.ID_LoaiThuoc,page = pageNo })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.TenThuoc')">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_LoaiThuoc" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_LoaiThuoc" role="dialog" data-url='@Url.Action("Edit","DanhSachThuoc",new{id = item.ID_LoaiThuoc, page = pageNo})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_LoaiThuoc").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_LoaiThuoc').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_LoaiThuoc").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA THÔNG TIN");
+                                                                    $("#myModaleF_@item.ID_LoaiThuoc").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+
+                                               
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="container" style="padding-top: 0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start" style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="DanhSachThuoc" asp-action="Index" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="DanhSachThuoc" asp-action="Index" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="DanhSachThuoc" asp-action="Index" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI YẾU TỐ ĐỌC HẠI");
+            $("#myModal").modal('show');
+        });
+    });
+
+    //Import Excel
+    $('#btn-Import').click(function () {
+        var url = $('#myModalImportExcel').data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("IMPORT DANH SÁCH YẾU TỐ ĐỌC HẠI");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "DanhSachThuoc")?search=' + search;
+    });
+</script>

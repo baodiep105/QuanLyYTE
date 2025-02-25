@@ -1,0 +1,214 @@
+﻿@model IEnumerable<QuanLyYTe.Models.TaiKhoan>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="display: block;text-align: end;">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                    </div>
+                                    <div class="col-md-2" style="text-align:left;">
+                                        <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button id="btn-add" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Thêm mới</button>
+                                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TaiKhoan")'></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div style="display: flex;">
+                                <div style="text-align:left;width:89%">
+                                    <img style="width: 15%;" src="~/images/logoHP.png">
+                                    <div style="text-align: center; width: 14%; font-size: 11px;">
+                                        <b>
+                                            CÔNG TY CỔ PHẦN THÉP<br />
+                                            HÒA PHÁT DUNG QUẤT
+                                        </b>
+                                    </div>
+                                </div>
+
+                                <div>
+                                </div>
+
+                            </div>
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading">
+                                        <div style="text-align:center;">
+                                            <h4>
+                                                <b>
+                                                    DANH SÁCH TÀI KHOẢN
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Tên đăng nhập</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">BP/NM </th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Vị trí công việc</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Quyền đăng nhập</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Tình trạng tài khoản</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Chữ ký</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td>@item.TenDangNhap </td>
+                                                    <td>@item.TenPhongBan</td>
+                                                    <td>@item.TenViTri</td>
+                                                    <td>@item.TenQuyen</td>
+                                                    @if(item.IsLock == 1)
+                                                    {
+                                                        <td>
+                                                            <span> Đang sử dụng</span>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            <span> Đã khóa</span>
+                                                        </td>
+                                                    }
+                                                    <td>
+                                                        <img src="@Url.Content("~/ReceivedReports/" + System.IO.Path.GetFileName(item.ChuKy))" class="d-block w-25 m-auto" alt="" />
+                                                        </td>
+                                                    <td class="text-center">
+                                                        @if(item.IsLock == 1)
+                                                        {
+                                                            <a class="bi bi-lock-fill" title="Khóa tài khoản" href="@Url.Action("Lock", "TaiKhoan", new { id = item.ID_TK })"
+                                                               onclick="return confirm('Bạn muốn khóa tài khoản : @item.TenDangNhap')">
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+
+                                                            <a class="bi bi-unlock-fill" title="Mở tài khoản" href="@Url.Action("Unlock", "TaiKhoan", new { id = item.ID_TK })"
+                                                               onclick="return confirm('Bạn muốn mở tài khoản : @item.TenDangNhap')">
+                                                            </a>
+                                                        }
+
+
+
+                                                        <a id="btn-edit_@item.ID_TK" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_TK" role="dialog" data-url='@Url.Action("Edit","TaiKhoan",new{id = item.ID_TK})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_TK").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_TK').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_TK").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA THÔNG TIN");
+                                                                    $("#myModaleF_@item.ID_TK").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="container">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start ">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="NhanVien" asp-action="Index" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="TaiKhoan" asp-action="Index" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="TaiKhoan" asp-action="Index" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI TUYỂN DỤNG");
+            $("#myModal").modal('show');
+        });
+    });
+
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "TaiKhoan")?search=' + search;
+    });
+</script>

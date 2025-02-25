@@ -1,0 +1,55 @@
+﻿@model QuanLyYTe.Models.ViTriLaoDong
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+@using (Html.BeginForm("Edit", "ViTriLaoDong", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID_ViTriLaoDong)
+
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+         <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Tên vị trí lao động</label>
+                        @Html.EditorFor(model => model.TenViTriLaoDong, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên vị trí lao động", @id = "TenViTriLaoDong" } })
+                        @Html.ValidationMessageFor(model => model.TenViTriLaoDong, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center; display: grid;">
+                        <label class="form-label fw-bold">Bộ phận nhà máy</label>
+                        @Html.DropDownListFor(model => model.ID_PhongBan, ViewBag.PBList as SelectList, "---- Chọn bộ phận nhà máy ----", new { @style="text-align: center;", @id = "ID_PhongBan", @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ID_PhongBan, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $("#ID_PhongBan").chosen({
+        width: "100%"
+    });
+    $("#ID_PhanLoai").chosen({
+        width: "100%"
+    });
+</script>
+<script type="text/javascript">
+    $("#ID_GioiTinh").chosen({
+        width: "100%"
+    });
+    $("#ID_KetQuaDV").chosen({
+        width: "100%"
+    });
+    $("#ID_LyDo").chosen({
+        width: "100%"
+    });
+</script>

@@ -1,0 +1,311 @@
+﻿@model IEnumerable<QuanLyYTe.Models.SoTheoDoi_KSK>
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    var List = ViewData["ViTriLamViec"] as List<QuanLyYTe.Models.ViTriLamViec>;
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="row" style="padding:1%;flex-wrap: inherit;border-bottom: 1px solid #e2e5e8;">
+                                <div class="col-md-1" style="padding-top:0.75%;text-align: right;">
+                                    <span class="text-center" style="margin-top: 8px"><b>BỘ PHẬN :</b></span>
+                                </div>
+                                <div class="col-md-2" style="padding-top: 0.5%;">
+
+                                    @Html.DropDownList("PBList", null, "----  Bộ phận/ Nhà máy  ----", new { id = "IDPhongBan", @class = "form-control"})
+
+                                </div>
+
+                                <div class="col-md-1" style="padding-top:0.75%;text-align: right;">
+                                    <span class="text-center" style="margin-top: 8px"><b>TỪ NGÀY :</b></span>
+                                </div>
+
+                                <div class="col-md-2" style="padding-top: 0.5%;">
+                                    @Html.TextBox("begind", null, new { @id = "begind", @type = "date", @class = "form-control", @style = "height: 35px; border-radius: 5px;" })
+                                </div>
+                                <div class="col-md-1" style="padding-top:0.75%;text-align: right;">
+                                    <span class="text-center" style="margin-top: 8px"><b>ĐẾN NGÀY :</b></span>
+                                </div>
+
+                                <div class="col-md-2" style="padding-top: 0.5%;">
+                                    @Html.TextBox("endd", null, new { @id = "endd", @type = "date", @class = "form-control",  @style = "height: 35px; border-radius: 5px;"  })
+                                </div>
+                                <div class="col-md-3" style="display:flex;">
+                                    <div>
+                                        <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                    </div>
+                                    <div style="padding-left: 20%;">
+                                        <button type="button" style="border-radius: 10px;" id="btn-Export" class="btn btn-primary pull-right"> <i class="bi bi-download"></i> Xuất Excel</button>
+                              
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div style="display: flex;">
+                                <div style="text-align:left;width:89%">
+                                    <img style="width: 15%;" src="~/images/logoHP.png">
+                                    <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                        <b>
+                                            CÔNG TY CỔ PHẦN THÉP<br />
+                                            HÒA PHÁT DUNG QUẤT
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading">
+                                        <div style="text-align:center;">
+                                            <h4 style="margin-bottom:0px;">
+                                                <b>
+                                                    DANH SÁCH CBNV ĐẾN THỜI HẠN KHÁM SỨC KHỎE ĐỊNH KỲ
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="120px" rowspan="2" class="text-center" style="vertical-align:middle">Mã nhân viên</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Họ và tên</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày sinh</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Giới tính</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Vị trí công việc</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Kíp làm việc</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày nhận việc</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Khám định kỳ</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">NHóm máu</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Khám phụ khoa</th>
+                                                 <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Lái xe</th>
+                                                <th width="80px" rowspan="2" class="text-center" style="vertical-align:middle">Thuyền viên</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @item.MaNV
+                                                    </td>
+                                                    <td>
+                                                        @item.HoTen
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgaySinh;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td>
+                                                        @item.TenGioiTinh
+                                                    </td>
+                                                    <td>
+                                                        @item.TenViTri
+                                                    </td>
+                                                    <td>
+                                                        @item.TenKip
+                                                    </td>
+                                                    <td>
+                                                        @{
+                                                            DateTime NV = (DateTime)item.NgayNhanViec;
+                                                        }
+                                                        @NV.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td>
+                                                        @item.TenPhongBan
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span>
+                                                            X
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.TenNhomMau
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if(item.ID_GioiTinh == 2)
+                                                        {
+                                                            <span>
+                                                                X
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                    @{
+                                                        var check_lx = List.Where(x => x.TenViTri == item.TenViTri).FirstOrDefault();
+                                                        if (check_lx.LoaiViTri == 1)
+                                                        {
+                                                            <td>
+                                                                <span> X   </span>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                            </td>
+                                                        }
+
+                                                        var check_tv = List.Where(x => x.TenViTri == item.TenViTri).FirstOrDefault();
+
+                                                        if (check_tv.LoaiViTri == 2)
+                                                        {
+                                                            <td>
+                                                                <span> X   </span>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                            </td>
+                                                        }
+
+                                                    }
+                                                  
+                                               
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "ThoiHan_KSK_DK", new { id = item.ID_STD,page = pageNo  })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.HoTen')">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_STD" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_STD" role="dialog" data-url='@Url.Action("Edit","ThoiHan_KSK_DK",new{id = item.ID_STD,page = pageNo})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_STD").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_STD').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_STD").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA THÔNG TIN");
+                                                                    $("#myModaleF_@item.ID_STD").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        string IDPhongBan = Context.Request.Query["IDPhongBan"];
+                                        string begind = Context.Request.Query["begind"];
+                                        string endd = Context.Request.Query["endd"];
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="ThoiHan_KSK_DK" asp-action="Index" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@pge">@pge</a>
+                                                </li>
+
+                                            }
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="ThoiHan_KSK_DK" asp-action="Index" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="ThoiHan_KSK_DK" asp-action="Index" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    //Show datetime current
+    $(document).ready(function () {
+        var dateNewFormat, onlyDate, today = new Date();
+
+        dateNewFormat = today.getFullYear() + '-';
+        if (today.getMonth() >= 9) {
+
+            dateNewFormat += (today.getMonth() + 1);
+        }
+        else {
+            dateNewFormat += '0' + (today.getMonth() + 1);
+        }
+
+        onlyDate = today.getDate();
+        if (onlyDate.toString().length == 2) {
+
+            dateNewFormat += "-" + onlyDate;
+        }
+        else {
+            dateNewFormat += '-0' + onlyDate;
+        }
+        if ($('#begind').val() == '') {
+            $('#begind').val(dateNewFormat);
+        }
+        if ($('#endd').val() == '') {
+            $('#endd').val(dateNewFormat);
+        }
+    });
+
+    $("#btn-search").on('click', function () {
+        var IDPhongBan = $('#IDPhongBan').val();
+        window.location.href = '@Url.Action("Index", "ThoiHan_KSK_DK")?IDPhongBan=' + IDPhongBan + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+    });
+
+    $('#btn-Export').click(function () {
+        var IDPhongBan = $('#IDPhongBan').val();
+        window.location.href = '@Url.Action("ExportToExcel", "ThoiHan_KSK_DK")?IDPhongBan=' + $('#IDPhongBan').val() + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+
+    });
+    $("#IDPhongBan").chosen({
+        width: "100%"
+    });
+</script>

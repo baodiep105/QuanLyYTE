@@ -1,0 +1,544 @@
+﻿@model IEnumerable<QuanLyYTe.Models.CapPhatThuoc>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    string st = ViewBag.st?.ToString("yyyy-MM-dd");
+    string ed = ViewBag.ed?.ToString("yyyy-MM-dd"); ;
+
+}
+
+<div class="modal" id="myModaleF" role="dialog" data-url="/CapPhatThuoc/Edit/1450" aria-modal="true" style="display: none; padding-left: 0px;">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/Chonse/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="/Chonse/chosen.css">
+    <script type="text/javascript">
+               $(document).ready(function () {
+                $("#ID_NhomBenh").chosen({
+                    width: "100%"
+                });
+            });
+            </script>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content " style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle">CHỈNH SỨA</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Họ và tên</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" id="ten" name="NgayCapThuoc" type="text" readonly>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Bộ phận</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" id="bp" name="NgayCapThuoc" type="text" readonly>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ngày cấp thuốc</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" id="NgayCapThuoc" name="NgayCapThuoc" type="date" readonly>
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="NgayCapThuoc" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Số điện thoại</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-box single-line" id="SoDienThoai" name="SoDienThoai" placeholder="Số điện thoại" type="text">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="SoDienThoai" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Thời gian đến</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-box single-line" id="ThoiGianDen" name="ThoiGianDen" placeholder="Thời gian đến" type="text">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="ThoiGianDen" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     
+                    </div>
+                    <div class="col-md-4 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Thời gian đi</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-box single-line" id="ThoiGianDi" name="ThoiGianDi" placeholder="Thời gian đi" type="text" >
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="ThoiGianDi" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     
+                    </div>
+                    <div class="col-md-4 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Số phút lưu lại</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-box single-line" id="SoPhutLuuLai" name="SoPhutLuuLai" placeholder="Số phút lưu lại" type="text">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="SoPhutLuuLai" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                     
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Loại bệnh</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownList("ID_NhomBenh", ViewBag.MBList as SelectList, "----Loại bệnh----", new { @style = "text-align: center;", @id = "ID_NhomBenh", @class = "form-control" })
+                                        @Html.ValidationMessage("ID_NhomBenh", "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                
+                    </div>
+                </div><div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ghi chú</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control text-box single-line" id="GhiChu" name="GhiChu" placeholder="GhiChu" type="text">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="GhiChu" data-valmsg-replace="true"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+           <hr />
+                <h4><b>Chi tiết thuốc </b><i class="fas fa-plus-circle" id="add" style="cursor:pointer"></i> </h4>
+                <div class="row detail" style="display:flex; justify-content:space-evenly">
+                    <div class="col-md-5 " style="text-align: center;">
+                        <div class="form-group">
+                            <label class="small mb-1">Loại thuốc</label>
+                            @Html.DropDownList("ID_LoaiThuoc", ViewBag.LTList as SelectList, "----Loại bệnh----", new { @style = "text-align: center;", @id = "ID_LoaiThuoc", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-5 " style="text-align: center;">
+                            <div class="form-group">
+                                <label class="small mb-1">Số lượng</label>
+                            @Html.TextBox("SoLuong", null, new { @class = "form-control", placeholder = "", id = "SoLuong" })
+                            </div>
+                    </div>
+                    <div class="col-md-1 " style="text-align: center;">
+                        <a class="delete" style="cursor:pointer"><i style=" font-size: larger;margin-top: 35px" class="fas fa-backspace delete"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right">
+            </div>
+        </div>
+    </div>
+
+<style>
+    .modal-body {
+        box-sizing: border-box;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        max-height: 750px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 16px 16px;
+    }
+</style></div>
+
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div>
+
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" id="st" name="" placeholder="" class="form-control" value="@st">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-primary" href="@Url.Action("Index","capphatthuoc")">Cấp phát thuốc</a>
+                                        </div>
+                                        <div class="col-md-3" style="text-align: right;">
+                                            @* <button id="btn-add" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="feather icon-plus"></i> Thêm mới</button>
+                                            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","CapPhatThuoc")'></div>*@
+
+                                            <button id="btn-refresh" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="fa-solid fa-arrows-rotate"></i>Refresh</button>
+                                            <div class="modal fade" id="myModalImportExcel" role="dialog" data-url='@Url.Action("ImportExcel", "CapPhatThuoc")'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="text-align:left;width:89%">
+                                        <img style="width: 15%;" src="~/images/logoHP.png">
+                                        <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                            <b>
+                                                CÔNG TY CỔ PHẦN THÉP<br />
+                                                HÒA PHÁT DUNG QUẤT
+                                            </b>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                    </div>
+
+                                </div>
+                                <div class="app-page-title" style="display: contents;">
+                                    <div class="page-title-wrapper" style=" display: contents;">
+                                        <div class="page-title-heading">
+                                            <div style="text-align:center;">
+                                                <h4 style="margin:0px;">
+                                                    <b>
+                                                        SỐ THEO DÕI CẤP PHÁT THUỐC VẬT TƯ Y TẾ
+                                                    </b>
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="width:84vw;overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="130px" rowspan="2" class="text-center" style="vertical-align:middle">Mã nhân viên</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Họ và tên</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày cấp thuốc</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Số điện thoại</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Thời gian đến</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Thời gian đi</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Số phút</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bệnh</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Ghi Chú</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo.ToString()
+                                                    </td>
+
+                                                    <td data-a="@item.MaNV : @item.HoTen" data-b="@item.ID_NV">@item.MaNV </td>
+                                                    <td>@item.HoTen </td>
+                                                    <td data-a="@item?.NgayCapThuoc.Value.ToString("yyyy-MM-dd")" class="text-center">
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgayCapThuoc;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td data-a="@item.TenPhongBan" data-b=@item.ID_PhongBan class="text-center"> @item.TenPhongBan</td>
+                                                    <td class="text-center">
+                                                        @item.SoDienThoai
+                                                    </td>
+                                                    <td  class="text-center">
+                                                        @item.ThoiGianDen
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.ThoiGianDi
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.SoPhutLuuLai
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.TenNhomBenh
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.GhiChu
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a title="Chỉnh sửa" class="btn-edit bi bi-pencil-square" style="cursor:pointer">   </a>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" href="@Url.Action("duLieuQuetCong","CapPhatThuoc",new{ page=pge, date=st,search= ViewBag.search} )" >@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" href="@Url.Action("duLieuQuetCong","CapPhatThuoc",new{ page=pager.CurrentPage + 1, date=st,search= ViewBag.search} )">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="@Url.Action("duLieuQuetCong","CapPhatThuoc",new{ page=pager.TotalPages, date=st,search= ViewBag.search} )">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+   
+       $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI VỊ TRÍ LAO ĐỘNG");
+            $("#myModal").modal('show');
+        });
+    });
+
+    $('#btn-refresh').click(function () {
+        performSearch(0);
+    });
+
+    $("#btn-search").on('click', function () {
+        performSearch(1);
+    });
+
+    function performSearch(searchType) {
+        var search = encodeURIComponent($('#txtsearch').val().trim() || '');
+        var st = encodeURIComponent($('#st').val() || '');
+
+        var baseUrl = '@Url.Action("duLieuQuetCong", "CapPhatThuoc")';
+        window.location.href = searchType === 1
+            ? `${baseUrl}?search=${search}&date=${st}`
+            : `${baseUrl}?date=${st}`;
+    }
+      $('#add').click(function () {
+        var a = document.querySelector('.detail');  // Chọn phần tử có lớp .detail
+        if (a) {
+            var html = a.outerHTML;  // Lấy HTML của chính phần tử
+            a.insertAdjacentHTML('afterend', html);  // Thêm bản sao sau phần tử
+        } else {
+            console.log("Không tìm thấy phần tử với lớp .detail");
+        }
+         });
+   
+           $(document).on('click', '.delete', function() {
+            console.log('âsdasd')
+                if(document.querySelectorAll('.detail').length > 1){
+                    $(this).closest('.detail').remove()
+                }
+        });
+    $('.btn-edit').click(function () {
+        const row = this.closest('tr'); // Lấy tr cha gần nhất
+        const cells = row.querySelectorAll('td'); // Lấy tất cả các td trong tr
+        $('#ten').val(cells[1].getAttribute('data-a'));
+        $('#ten').attr('data-b', cells[1].getAttribute('data-b'));
+        $('#bp').val(cells[4].getAttribute('data-a'));
+        $('#bp').attr('data-b', cells[4].getAttribute('data-b'));
+        $('#NgayCapThuoc').val(cells[3].getAttribute('data-a'));
+        $('#ThoiGianDi').val(cells[7].innerText.trim());
+        $('#ThoiGianDen').val(cells[6].innerText.trim());
+        $('#SoPhutLuuLai').val(cells[8].innerText.trim());
+        $('#GhiChu').val(cells[9].innerText.trim());
+    // Hiển thị modal
+        $('#myModaleF').modal('show');
+    });
+        
+        
+    $(document).ready(function () {
+        $('#btnSubmit').on('click', function (e) {
+        e.preventDefault();
+
+        var list = document.querySelectorAll('.detail');
+        var details = [];
+
+        list.forEach(function (item) {
+            var loaiThuoc = item.querySelector('select[id="ID_LoaiThuoc"]').value;
+            var soLuong = item.querySelector('input[id="SoLuong"]').value;
+            if (loaiThuoc && soLuong) {
+                details.push({
+                    ID_LoaiThuoc: loaiThuoc,
+                    SoLuong: soLuong
+                });
+            }
+        });
+
+        const data = {
+            ID_NV: $('#ten').data('b'),
+            ID_PhongBan: $('#bp').data('b'),
+            NgayCapThuoc: $('#NgayCapThuoc').val(),
+            SoDienThoai: $('#SoDienThoai').val(),
+            ThoiGianDen: $('#ThoiGianDen').val(),
+            ThoiGianDi: $('#ThoiGianDi').val(),
+            SoPhutLuuLai: $('#SoPhutLuuLai').val(),
+            ID_NhomBenh: $('#ID_NhomBenh').val(),
+            GhiChu: $('#GhiChu').val(),
+            detail: details.length > 0 ? details : null
+        };
+        console.log(data)
+        if (!data.ID_NV || !data.ID_PhongBan || !data.NgayCapThuoc) {
+            alert('Vui lòng điền đầy đủ thông tin.');
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/CapPhatThuoc/Create',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                if (response.success) {
+                    alert(response.message);
+                    $('#myModaleF').modal('hide');
+                    location.reload();
+                } else {
+                    alert('Thất bại: ' + response.message);
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra khi gửi dữ liệu.');
+                console.error(error);
+            }
+        });
+    });
+    });
+</script>

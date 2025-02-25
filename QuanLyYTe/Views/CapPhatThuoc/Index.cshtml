@@ -1,0 +1,252 @@
+﻿@model IEnumerable<QuanLyYTe.Models.CapPhatThuoc>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    string st = ViewBag.st?.ToString("yyyy-MM-dd");
+    string ed = ViewBag.ed?.ToString("yyyy-MM-dd"); ;
+
+}
+
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div>
+
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" id="st" name="" placeholder="" class="form-control" value="@st">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" id="ed" name="" placeholder="" class="form-control" value="@ed">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a class="btn btn-primary" href="@Url.Action("duLieuQuetCong","capphatthuoc")">Dữ liệu quẹt thẻ</a>
+                                        </div>
+                                        <div class="col-md-2" style="text-align: right;">
+                                            @* <button id="btn-add" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="feather icon-plus"></i> Thêm mới</button>
+                                            <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","CapPhatThuoc")'></div>*@
+
+                                            <button id="btn-Import" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-upload"></i> Import Excel</button>
+                                            <div class="modal fade" id="myModalImportExcel" role="dialog" data-url='@Url.Action("ImportExcel", "CapPhatThuoc")'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="text-align:left;width:89%">
+                                        <img style="width: 15%;" src="~/images/logoHP.png">
+                                        <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                            <b>
+                                                CÔNG TY CỔ PHẦN THÉP<br />
+                                                HÒA PHÁT DUNG QUẤT
+                                            </b>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                    </div>
+
+                                </div>
+                                <div class="app-page-title" style="display: contents;">
+                                    <div class="page-title-wrapper" style=" display: contents;">
+                                        <div class="page-title-heading">
+                                            <div style="text-align:center;">
+                                                <h4 style="margin:0px;">
+                                                    <b>
+                                                        SỐ THEO DÕI CẤP PHÁT THUỐC VẬT TƯ Y TẾ
+                                                    </b>
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="width:84vw;overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="130px" rowspan="2" class="text-center" style="vertical-align:middle">Mã nhân viên</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Họ và tên</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày cấp thuốc</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Số điện thoại</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Thời gian đến</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Thời gian đi</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Số phút</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bệnh</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Ghi Chú</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+
+                                                    <td>@item.MaNV </td>
+                                                    <td>@item.HoTen </td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgayCapThuoc;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center"> @item.TenPhongBan</td>
+                                                    <td class="text-center">
+                                                        @item.SoDienThoai
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.ThoiGianDen
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.ThoiGianDi
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.SoPhutLuuLai
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.TenNhomBenh
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.GhiChu
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" data-manv="@item.MaNV" data-href="@Url.Action("Delete", "CapPhatThuoc", new { id = item.ID_CapThuoc, page = pageNo })">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_CapThuoc" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_CapThuoc" role="dialog" data-url='@Url.Action("Edit", "CapPhatThuoc", new { id = item.ID_CapThuoc })'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_CapThuoc").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_CapThuoc').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_CapThuoc").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA");
+                                                                    $("#myModaleF_@item.ID_CapThuoc").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+
+                                                        <a title="" class="feather icon-align-justify" id="@item.ID_CapThuoc" href="@Url.Action("Index","ChiTiet_CapPhatThuoc", new { id = item.ID_CapThuoc})"></a>
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="CapPhatThuoc" asp-action="Index" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="CapPhatThuoc" asp-action="Index" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="CapPhatThuoc" asp-action="Index" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI VỊ TRÍ LAO ĐỘNG");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#btn-Import').click(function () {
+        var url = $('#myModalImportExcel').data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("IMPORT DANH SÁCH");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        var st = $('#st').val();
+        var ed = $('#ed').val();
+        window.location.href = '@Url.Action("Index", "CapPhatThuoc")?search=' + search+'&st='+st+'&ed='+ed;
+    });
+     $(".bi-trash-fill").on('click', function () {
+        var a=$(this).data('manv');
+        var url=$(this).data('href');
+        if(confirm('Bạn muốn xóa :'+a)){
+            $.get(url, function (data) {
+                alert(data.msg);
+                location.reload();
+            });
+        }
+
+    });
+</script>

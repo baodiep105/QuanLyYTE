@@ -1,0 +1,96 @@
+﻿@model QuanLyYTe.Models.SoTheoDoi_KSK
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+@using (Html.BeginForm("Edit", "SoTheoDoi_KSK", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID_STD)
+    @Html.HiddenFor(model => model.ThoiHanSKS_Truoc)
+    @Html.HiddenFor(model => model.ThoiHanSKS_TiepTheo)
+
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Họ và tên</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_NV, ViewBag.NVList as SelectList, "---- Họ và tên ----", new {  @style="text-align: center;",@id = "ID_NV", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_NV, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Giới tính</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_GioiTinh, ViewBag.GTList as SelectList, "---- Chọn giới tính----", new {  @style="text-align: center;",@id = "ID_GioiTinh", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_GioiTinh, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Giới tính</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_PhanLoai, ViewBag.plList as SelectList, "---- Chọn giới tính----", new { @style = "text-align: center;", @id = "ID_PhanLoai", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_PhanLoai, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("#ID_NV").chosen({
+        width: "100%"
+    });
+    $("#ID_ViTriLaoDong").chosen({
+        width: "100%"
+    });
+    $("#ID_GioiTinh").chosen({
+        width: "100%"
+    });
+    $("#ID_NhomMau").chosen({
+        width: "100%"
+    }); 
+</script>

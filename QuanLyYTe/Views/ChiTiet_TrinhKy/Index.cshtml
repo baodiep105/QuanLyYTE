@@ -1,0 +1,393 @@
+﻿@model IEnumerable<QuanLyYTe.Models.KSK_BenhNgheNghiep>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    var List = ViewData["CT_KSK_BenhNgheNghiep"] as List<QuanLyYTe.Models.CT_KSK_BenhNgheNghiep>;
+    var List_VT = ViewData["ViTriLaoDong"] as List<QuanLyYTe.Models.ViTriLaoDong>;
+    var List_TK = ViewData["TrinhKy"] as List<QuanLyYTe.Models.TrinhKy>;
+    var List_NV = ViewData["NhanVien"] as List<QuanLyYTe.Models.NhanVien>;
+    var List_BP = ViewData["PhongBan"] as List<QuanLyYTe.Models.PhongBan>;
+    var List_VTLV = ViewData["ViTriLamViec"] as List<QuanLyYTe.Models.ViTriLamViec>;
+    var List_CK = ViewData["TaiKhoan"] as List<QuanLyYTe.Models.TaiKhoan>;
+    int IDTK = Convert.ToInt32(ViewBag.ID_TK);
+    int ID_PhongBan = Convert.ToInt32(ViewBag.ID_PB);
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div style="display: flex;padding-top: 2%;">
+                                <div style="text-align:left;width:89%">
+                                    <img style="width: 15%;" src="~/images/logoHP.png">
+                                    <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                        <b>
+                                            CÔNG TY CỔ PHẦN THÉP<br />
+                                            HÒA PHÁT DUNG QUẤT
+                                        </b>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" style="border-radius: 10px;" id="btn-Export" class="btn btn-primary pull-right"> <i class="bi bi-download"></i> Xuất Excel</button>
+
+                                </div>
+                            </div>
+                            @{
+                                var ID_TrinhKy = List_TK.Where(x => x.ID_TK == IDTK).FirstOrDefault();
+
+                            }
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading">
+                                        <div style="text-align:center;">
+                                            <h4>
+                                                <b>
+                                                    DANH SÁCH CBNV KHÁM SỨC KHỎE BỆNH NGHỀ NGHIỆP
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="height: 32vw;">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            @{
+                                                List<string> ChiTieu = new List<string>();
+                                                List<string> NoiDung = new List<string>();
+                                                foreach (var item in Model)
+                                                {
+                                                    var check_ = List.Where(x => x.ID_KSK_BNN == item.ID_KSK_BNN).ToList();
+                                                    foreach (var ad in check_)
+                                                    {
+                                                        ChiTieu.Add(ad.TenChiTieu);
+                                                        NoiDung.Add(ad.TenNoiDung);
+                                                    }
+
+                                                }
+
+                                                List<string> Distinct_ChiTieu = ChiTieu.Distinct().ToList();
+                                                int count_chitieu = Distinct_ChiTieu.Count();
+                                                List<string> Distinct_NoiDung = NoiDung.Distinct().ToList();
+                                                int count_noidung = Distinct_NoiDung.Count();
+
+
+                                                <tr>
+                                                    <th width="30px" rowspan="2" style="vertical-align: middle;">STT</th>
+                                                    <th width="200px" rowspan="2" class="text-center" style="vertical-align: middle;">Vị trí lao động</th>
+                                                    <th width="150px" rowspan="2" class="text-center" style="vertical-align: middle;">Mã nhân viên</th>
+                                                    <th width="150px" rowspan="2" class="text-center" style="vertical-align: middle;">Họ và tên</th>
+                                                    <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày sinh</th>
+                                                    <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Vị trí làm việc</th>
+                                                    <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Kíp</th>
+                                                    <th width="200px" colspan="@count_noidung" class="text-center" style="vertical-align:middle">Nội dung phát hiện bệnh nghề nghiệp</th>
+                                                </tr>
+                                                <tr>
+
+                                                    @foreach (var Noidung in Distinct_NoiDung)
+                                                    {
+                                                        <th class="text-center">
+                                                            @Noidung
+                                                        </th>
+                                                    }
+
+                                                </tr>
+                                            }
+
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center" style="vertical-align: middle;">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td style="vertical-align: middle;"> @item.TenViTriLaoDong </td>
+                                                    <td style="vertical-align: middle;"> @item.MaNV</td>
+                                                    <td style="vertical-align: middle;"> @item.HoTen</td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgaySinh;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center"> @item.TenViTri</td>
+                                                    <td class="text-center"> @item.TenKip</td>
+                                                    @foreach (var Noidung in Distinct_NoiDung)
+                                                    {
+                                                        var check_nd = List.Where(x => x.ID_KSK_BNN == item.ID_KSK_BNN && x.TenNoiDung == Noidung).FirstOrDefault();
+                                                        if (check_nd != null)
+                                                        {
+                                                            <td class="text-center">
+                                                                <span>
+                                                                    X
+                                                                </span>
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center">
+                                                            </td>
+
+                                                        }
+                                                    }
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="page-title-heading" style="background-color: #4680ff;">
+                                <div style="text-align:center;">
+                                    <h4 style="    padding: 1.5%; color: white;">
+                                        <b>
+                                            DANH SÁCH THỐNG KÊ THEO VỊ TRÍ LAO ĐỘNG
+                                        </b>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="height: 32vw;">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+  
+                                                <tr>
+                                                    <th width="20px" rowspan="2">STT</th>
+                                                    <th width="200px" rowspan="2" class="text-center">Vị trí lao động</th>
+                                                    <th width="150px" rowspan="2" class="text-center" style="vertical-align: middle;">Số lượng</th>
+                                                </tr>
+                                        </thead>
+                                        @{
+                                            int stt = 1;
+                                        }
+                                        <tbody>
+                                            @{
+                                                var ID_VTLD = List_VT.Where(x => x.ID_PhongBan == ID_PhongBan).ToList();
+
+                                                foreach (var item in ID_VTLD)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">@stt</td>
+                                                        <td> @item.TenViTriLaoDong </td>
+
+                                                        @{
+
+                                                            var Count = Model.Where(x => x.ID_ViTriLaoDong == item.ID_ViTriLaoDong && x.ID_PhongBan == ID_TrinhKy.ID_PhongBan && x.NgayLenDanhSach == ID_TrinhKy.NgayTrinhKy).Count();
+                                                            <td class="text-center"> @Count</td>
+                                                        }
+                                                       
+                                                    </tr>
+                                                    stt++;
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                            <div class="page-title-heading" style="background-color: #4680ff;">
+                                <div style="text-align:center;">
+                                    <h4 style="    padding: 1.5%; color: white;">
+                                        <b>
+                                           THÔNG TIN LUÂN CHUYỂN
+                                        </b>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+
+                                            <tr>
+                                                <th width="50px" rowspan="2">STT</th>
+                                                <th width="200px" rowspan="2" class="text-center">Người xử lý</th>
+                                                <th width="200px" rowspan="2" class="text-center">Bộ phận</th>
+                                                <th width="200px" rowspan="2" class="text-center">Vị trí làm việc</th>
+                                                <th width="200px" rowspan="2" class="text-center">Ngày xử lý</th>
+                                                <th width="200px" rowspan="2" class="text-center">Tình trạng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                               
+                                                <tr>
+                                                    <td class="text-center"> 1 </td>
+                                                    @{
+                                                        var NhanVien_NL= List_NV.Where(x => x.ID_NV == ID_TrinhKy.NguoiLap).FirstOrDefault();
+                                                        var PhongBan_NL = List_BP.Where(x => x.ID_PhongBan == NhanVien_NL.ID_PhongBan).FirstOrDefault();
+                                                        var ViTri_NL = List_VTLV.Where(x => x.ID_ViTri == NhanVien_NL.ID_ViTri).FirstOrDefault();
+                                                    }
+                                                    <td> @NhanVien_NL.MaNV - @NhanVien_NL.HoTen</td>
+                                                    <td> @PhongBan_NL.TenPhongBan</td>
+                                                    <td> @ViTri_NL.TenViTri</td>
+                                                    @if(ID_TrinhKy.Ngay_NguoiLap == null)
+                                                    {
+                                                        <td></td>
+                                                    }
+                                                    else
+                                                    {
+                                                        DateTime NS = (DateTime)ID_TrinhKy.Ngay_NguoiLap;
+                                                        <td class="text-center">
+                                                            @NS.ToString("dd/MM/yyyy")
+                                                        </td>
+                                                    }
+                                                    @if (ID_TrinhKy.TinhTrang_NguoiLap == 1)
+                                                    {
+                                                        <td class="text-center">Đã xử lý</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="text-center">Chưa xử lý</td>
+                                                    }
+                                                </tr>
+                                                if (ID_TrinhKy.TruongPho != null)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center"> 2 </td>
+                                                        @{
+                                                            var NhanVien = List_NV.Where(x => x.ID_NV == ID_TrinhKy.TruongPho).FirstOrDefault();
+                                                            var PhongBan = List_BP.Where(x => x.ID_PhongBan == NhanVien.ID_PhongBan).FirstOrDefault();
+                                                            var ViTri = List_VTLV.Where(x => x.ID_ViTri == NhanVien.ID_ViTri).FirstOrDefault();
+                                                        }
+                                                        <td> @NhanVien.MaNV - @NhanVien.HoTen</td>
+                                                        <td> @PhongBan.TenPhongBan</td>
+                                                        <td> @ViTri.TenViTri</td>
+                                                        @if (ID_TrinhKy.Ngay_TruongPho == null)
+                                                        {
+                                                            <td></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            DateTime NS = (DateTime)ID_TrinhKy.Ngay_TruongPho;
+                                                            <td class="text-center">
+                                                                @NS.ToString("dd/MM/yyyy")
+                                                            </td>
+                                                          
+                                                        }
+                                                        @if (ID_TrinhKy.TinhTrang_TruongPho == 1)
+                                                        {
+                                                            <td class="text-center">Đã xử lý</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center">Chưa xử lý</td>
+                                                        }
+                                                    </tr>
+                                                }
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            @if (ID_TrinhKy.TruongPho != null && ID_TrinhKy.TinhTrang_TruongPho != 0)
+                            {
+                                <div class="col-md-12" style="display: flex; padding: 2%;">
+                                    <div class="col-md-6" style="text-align: center">
+                                        <h6>
+                                            Người lập
+                                        </h6>
+                                    </div>
+                                    <div class="col-md-6" style="text-align: center">
+                                        <h6>
+                                            T/P BP/NM
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="display: flex;padding: 2%;">
+                                    @{
+                                        var ck_ngl = List_CK.Where(x => x.ID_NV == ID_TrinhKy.NguoiLap).FirstOrDefault();
+                                        if (ck_ngl.ChuKy != null)
+                                        {
+                                            <div class="col-md-6" style="text-align: center">
+                                                <h6>
+                                                    <b>
+                                                        <img style="width: 30%;" src="@Url.Content("~/ReceivedReports/" + System.IO.Path.GetFileName(ck_ngl.ChuKy))" />
+                                                    </b>
+
+                                                </h6>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-6" style="text-align: center">
+                                                <h6>
+                                                </h6>
+                                            </div>
+                                        }
+                                    }
+
+                                    <div class="col-md-6" style="text-align: center">
+                                        @{
+                                            var ck_tp = List_CK.Where(x => x.ID_NV == ID_TrinhKy.TruongPho).FirstOrDefault();
+                                            if (ck_tp.ChuKy != null)
+                                            {
+                                                <h6>
+                                                    <b>
+                                                        <img style="width: 30%;" src="@Url.Content("~/ReceivedReports/" + System.IO.Path.GetFileName(ck_tp.ChuKy))" />
+                                                    </b>
+
+                                                </h6>
+                                            }
+                                            else
+                                            {
+                                                <h6>
+                                                </h6>
+                                            }
+                                        }
+
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $('#btn-Export').click(function () {
+        var ID_TK = @IDTK;
+        window.location.href = '@Url.Action("ExportToExcel", "ChiTiet_TrinhKy")?ID_TK=' + @IDTK;
+
+    });
+</script>

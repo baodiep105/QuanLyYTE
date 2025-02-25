@@ -1,0 +1,256 @@
+﻿@model IEnumerable<QuanLyYTe.Models.TrinhKy>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="row" style="padding:1%;flex-wrap: inherit;border-bottom: 1px solid #e2e5e8;">
+                                <div class="col-md-3">
+                                    <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                </div>
+                                <div class="col-md-3" style="text-align: end;">
+                                    <button id="btn-add" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> Thêm mới</button>
+                                    <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TrinhKy")'></div>
+                                </div>
+                                <div class="col-md-3" style="text-align: end;">
+                                    <button id="export" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="bi bi-plus-circle"></i> export</button>
+                                    <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","TrinhKy")'></div>
+                                </div>
+
+                            </div>
+                            <div style="display: flex;">
+                                <div style="text-align:left;width:89%">
+                                    <img style="width: 15%;" src="~/images/logoHP.png">
+                                    <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                        <b>
+                                            CÔNG TY CỔ PHẦN THÉP<br />
+                                            HÒA PHÁT DUNG QUẤT
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading">
+                                        <div style="text-align:center;">
+                                            <h4 style="margin-bottom:0px;">
+                                                <b>
+                                                    DANH SÁCH TRÌNH KÝ KHÁM SỨC KHỎE BỆNH NGHỀ NGHIỆP
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="300px" rowspan="2" class="text-center" style="vertical-align:middle">Nội dung trích yếu</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Người lập</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày tạo</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Tình trạng</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Ghi chú</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center" style="vertical-align:middle">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+
+                                                    <td class="text-center" style="vertical-align:middle"> @item.NoiDung</td>
+                                                    <td class="text-center" style="vertical-align:middle"> @item.HoTen_NguoiLap</td>
+                                                    <td class="text-center" style="vertical-align:middle"> @item.TenPhongBan</td>
+                                                    <td class="text-center" style="vertical-align:middle">
+                                                        @{
+                                                            DateTime NTK = (DateTime)item.NgayTrinhKy;
+                                                        }
+                                                        @NTK.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    @if (item.TinhTrang_NguoiLap == 0)
+                                                    {
+                                                        <td class="text-center">
+                                                            <span class="btn btn-secondary">Chưa trình ký</span>
+                                                        </td>
+                                                    }
+                                                    else if (item.TinhTrang_NguoiLap == 1 && item.TinhTrang_TruongPho == 0 || item.TinhTrang_NguoiLap == 1 && item.TinhTrang_TruongPho == null)
+                                                                                        {
+                                                        <td class="text-center">
+                                                            <a class="" title="Đang xử lý">
+                                                                <span class="btn-transition btn btn-warning" style="width:120px;">Đang xử lý</span>
+                                                            </a>
+                                                        </td>
+                                                    }
+                                                    else if (item.TinhTrang_NguoiLap != 0 && item.TruongPho != 0 && item.TinhTrang_TruongPho == 1)
+                                                    {
+                                                        <td class="text-center">
+                                                            <a class="" title="Đã xử lý">
+                                                                <span class="btn-transition btn btn-success" style="width:120px;">Đã xử lý</span>
+                                                            </a>
+                                                        </td>
+                                                    }
+                                                    else if (item.TinhTrang_NguoiLap != 0 && item.TruongPho != 0 && item.TinhTrang_TruongPho == 2)
+                                                    {
+                                                        <td class="text-center">
+                                                            <a class="" title="Đã hủy">
+                                                                <span class="btn-transition btn btn-danger" style="width:120px;">Đã hủy</span>
+                                                            </a>
+                                                        </td>
+                                                    }
+                                                    <td style="vertical-align:middle">
+                                                        @item.GhiChu
+                                                    </td>
+                                                    <td class="text-center" style="vertical-align:middle">
+                                                        @if(item.TinhTrang_NguoiLap == 0)
+                                                        {
+                                                            <a id="btn-CheckInformation_@item.ID_TK" title="Trình ký" class="bi bi-send-fill" style="cursor:pointer"></a>
+                                                            <div class="modal " id="myModaleCheckInformation_@item.ID_TK" role="dialog" data-url='@Url.Action("CheckInformation","TrinhKy",new{id = item.ID_TK,page = pageNo})'></div>
+                                                            <script type="text/javascript">
+                                                                $("#btn-CheckInformation_@item.ID_TK").click(function () {
+                                                                    var url = $('#myModaleCheckInformation_@item.ID_TK').data('url');
+                                                                    $.get(url, function (data) {
+                                                                        $("#myModaleCheckInformation_@item.ID_TK").html(data);
+                                                                        $("#ModalTitle").html("TRÌNH KÝ");
+                                                                        $("#myModaleCheckInformation_@item.ID_TK").modal('show');
+                                                                    });
+                                                                });
+                                                            </script>
+                                                            <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "TrinhKy", new { id = item.ID_TK,page = pageNo })"
+                                                               onclick="return confirm(' Bạn muốn xóa: @item.NoiDung')">
+                                                            </a>
+
+
+                                                            <a id="btn-edit_@item.ID_TK" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                            <div class="modal " id="myModaleF_@item.ID_TK" role="dialog" data-url='@Url.Action("Edit","TrinhKy",new{id = item.ID_TK,page = pageNo})'></div>
+                                                            <script type="text/javascript">
+                                                                $("#btn-edit_@item.ID_TK").click(function () {
+                                                                    var url = $('#myModaleF_@item.ID_TK').data('url');
+                                                                    $.get(url, function (data) {
+                                                                        $("#myModaleF_@item.ID_TK").html(data);
+                                                                        $("#ModalTitle").html("CHỈNH SỨA THÔNG TIN");
+                                                                        $("#myModaleF_@item.ID_TK").modal('show');
+                                                                    });
+                                                                });
+                                                            </script>
+                                                        }
+                                                        else if (item.TinhTrang_NguoiLap == 2)
+                                                        {
+                                                            <a class="bi bi-dash-circle-fill" title="Hủy trình ký" href="@Url.Action("Cancel", "TrinhKy", new { id = item.ID_TK,page = pageNo })"
+                                                               onclick="return confirm('Bạn muốn hủy trình ký : @item.NoiDung')">
+                                                            </a>
+                                                        }
+
+                                                        <a title="" class="feather icon-align-justify" id="@item.ID_TK" href="@Url.Action("Index","ChiTiet_TrinhKy", new { id = item.ID_TK})"></a>
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        string IDPhongBan = Context.Request.Query["IDPhongBan"];
+                                        string begind = Context.Request.Query["begind"];
+                                        string endd = Context.Request.Query["endd"];
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="TrinhKy" asp-action="Index" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@pge">@pge</a>
+                                                </li>
+
+                                            }
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="TrinhKy" asp-action="Index" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="TrinhKy" asp-action="Index" asp-route-IDPhongBan="@IDPhongBan" asp-route-begind="@begind" asp-route-endd="@endd" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "TrinhKy")?search=' + search;
+    });
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI TRÌNH KÝ");
+            $("#myModal").modal('show');
+        });
+    });
+    $('#export').click(function () {
+        var url = '@Url.Action("export", "TrinhKy")';
+        console.log(url)
+         $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI TRÌNH KÝ");
+            $("#myModal").modal('show');
+        });
+    });
+    // $('#btn-Export').click(function () {
+    //     var IDPhongBan = $('#IDPhongBan').val();
+    //     window.location.href = '@Url.Action("ExportToExcel", "TrinhKy")?IDPhongBan=' + $('#IDPhongBan').val() + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+
+    // });
+</script>

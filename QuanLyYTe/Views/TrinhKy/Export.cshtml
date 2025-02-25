@@ -1,0 +1,51 @@
+﻿
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Bộ phận nhà máy</label>
+                        @Html.DropDownList("ID_PhongBan", ViewBag.PBList as SelectList, "---- Chọn bộ phận nhà máy ----", new { @style = "text-align: center;z-index:100", @id = "ID_PhongBan", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center;">
+                        <label class="form-label fw-bold">Ngày lên danh sách</label>
+                        @Html.TextBox("NgayTrinhKy", null, new {  @id = "NgayTrinhKy", @type = "date", @class = "form-control", @Value = ViewBag.NgayTrinhKy })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="button" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+<style>
+    .modal-body {
+        box-sizing: border-box;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        max-height: 750px;
+        /* overflow: auto; */
+        -webkit-overflow-scrolling: touch;
+        padding: 16px 16px;
+    }
+</style>
+<script type="text/javascript">
+    $("#ID_PhongBan").chosen({
+        width: "100%"
+    });
+    $("#btnSubmit").click(function(){
+        var id=$("#ID_PhongBan").val();
+        var ngay=$("#NgayTrinhKy").val();
+        window.location.href = '@Url.Action("exportEX","TrinhKy")'+'?id='+id+'&ngay='+ ngay;
+    });
+</script>

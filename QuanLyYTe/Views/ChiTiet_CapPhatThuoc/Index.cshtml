@@ -1,0 +1,159 @@
+﻿@model IEnumerable<QuanLyYTe.Models.ChiTiet_CapPhatThuoc>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+    int ID = Convert.ToInt32(ViewBag.Data);
+}
+
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header" style="display: block;text-align: end;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button id="btn-add" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="feather icon-plus"></i> Thêm mới</button>
+                                        <div class="modal fade" id="myModal" role="dialog" data-url='@Url.Action("Create","ChiTiet_CapPhatThuoc", new{id = ID})'></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading" style="padding: 2%">
+                                        <div style="text-align:center;">
+                                            <h4>
+                                                <b>
+                                                    DANH SÁCH THUỐC VÀ SỐ LƯỢNG CẤP PHÁT
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center" width="10px">STT</th>
+                                                <th class="text-center" width="300px">Tên loại thuốc</th>
+                                                <th class="text-center" width="100px">Số lượng</th>
+                                                <th class="text-center" width="10px">Thao tác</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td> @item.TenLoaiThuoc </td>
+                                                    <td class="text-center"> @item.SoLuong </td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "ChiTiet_CapPhatThuoc", new { id = item.ID_CT_CapThuoc })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.TenLoaiThuoc')">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_CT_CapThuoc" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_CT_CapThuoc" role="dialog" data-url='@Url.Action("Edit","ChiTiet_CapPhatThuoc",new{id = item.ID_CT_CapThuoc})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_CT_CapThuoc").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_CT_CapThuoc').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_CT_CapThuoc").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA THÔNG TIN");
+                                                                    $("#myModaleF_@item.ID_CT_CapThuoc").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+
+
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="container" style="padding-top: 1%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start ">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="DanhSachDocHai" asp-action="Index" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="ChiTiet_DanhSachDocHai" asp-action="Index" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="ChiTiet_DanhSachDocHai" asp-action="Index" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI THÔNG TIN");
+            $("#myModal").modal('show');
+        });
+    });
+</script>

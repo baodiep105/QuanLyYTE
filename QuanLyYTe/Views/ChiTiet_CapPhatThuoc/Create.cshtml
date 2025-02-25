@@ -1,0 +1,104 @@
+﻿@model QuanLyYTe.Models.ChiTiet_CapPhatThuoc
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+<style>
+    .disabled-button {
+        pointer-events: none;
+        opacity: 0.5; /* Làm mờ button để hiển thị rõ rằng nó bị vô hiệu hóa */
+        cursor: not-allowed; /* Thay đổi con trỏ để chỉ rõ trạng thái không thể click */
+    }
+</style>
+@using (Html.BeginForm("Create", "ChiTiet_CapPhatThuoc", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Tên loại thuốc</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_LoaiThuoc, ViewBag.lt as SelectList, "---- Chọn loại thuốc ----", new { @style = "text-align: center;", @id = "ID_LoaiThuoc", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_LoaiThuoc, "", new { @class = "text-danger" })
+
+                                        @*     @Html.DropDownListFor(model => model.ID_NV, ViewBag.NVList as SelectList, "---- Chọn tên đăng nhập ----", new {  @style="text-align: center;", @id = "ID_NV", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_NV, "", new { @class = "text-danger" })*@
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Số lượng</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.SoLuong, new { htmlAttributes = new { @class = "form-control", placeholder = "Số lượng", @id = "SoLuong" } })
+                                        @Html.ValidationMessageFor(model => model.SoLuong, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right disabled-button" />
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $("#ID_LoaiThuoc").chosen({
+        width: "100%"
+    });
+      function check() {
+        var a = $("#ID_LoaiThuoc").val();  // Thêm dấu # cho id
+        var b = $("#SoLuong").val();       // Thêm dấu # cho id
+         console.log('a'+a)
+         console.log('b'+b)
+        console.log(a !== null && a !== "" && b !== null && b !== "")
+        return a !== null && a !== "" && b !== null && b !== "";
+    }
+    $("#SoLuong").on("input",function() {
+        if(check()){
+            $("#btnSubmit").removeClass('disabled-button');
+        }else{
+             $("#btnSubmit").addClass('disabled-button');
+        }
+
+    });
+    $("#ID_LoaiThuoc").change(function(){
+        if(check()){
+            $("#btnSubmit").removeClass('disabled-button');
+        }
+        else{
+             $("#btnSubmit").addClass('disabled-button');
+        }
+
+    });
+</script>
