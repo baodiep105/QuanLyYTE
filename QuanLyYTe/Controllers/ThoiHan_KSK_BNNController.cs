@@ -76,15 +76,15 @@ namespace QuanLyYTe.Controllers
 
                              }).ToListAsync();
 
-            /*if (Check_q.ID_Quyen == 1 && Check_q.ID_Quyen == 2)
+            if (Check_q.ID_Quyen == 1 && Check_q.ID_Quyen == 2)
             {
                 res = res.Where(x => x.ID_PhongBan == IDPhongBan).ToList();
             }
             else
             {
                 res = res.Where(x => x.ID_PhongBan == Check_q.ID_PhongBan).ToList();
-            }*/
-            if(begind!=null && endd != null)
+            }
+            if (begind!=null && endd != null)
             {
                 res = res.Where(x => x.NgayLenDanhSach >= begind && x.NgayLenDanhSach <= endd).ToList();
             }

@@ -451,3 +451,4 @@ E:\QuanLyYTe\QuanLyYTe\obj\Debug\net6.0\refint\QuanLyYTe.dll
 E:\QuanLyYTe\QuanLyYTe\obj\Debug\net6.0\QuanLyYTe.pdb
 E:\QuanLyYTe\QuanLyYTe\obj\Debug\net6.0\QuanLyYTe.genruntimeconfig.cache
 E:\QuanLyYTe\QuanLyYTe\obj\Debug\net6.0\ref\QuanLyYTe.dll
+E:\QuanLyYTe\QuanLyYTe\obj\Debug\net6.0\QuanLyYTe.sourcelink.json

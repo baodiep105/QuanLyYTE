@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "nIlcl+6QEdZ/3vZTWcN/10Sf6EaugpXcLs3j8wyQvCg=",
+  "Hash": "8lCS1FBRbbilUr7VLCrkfH2jBRgH4BcfBQJUmTpGbGw=",
   "Source": "QuanLyYTe",
   "BasePath": "_content/QuanLyYTe",
   "Mode": "Default",
@@ -14234,6 +14234,48 @@
       "OriginalItemSpec": "wwwroot\\ReceivedReports\\202502211625"
     },
     {
+      "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261325",
+      "SourceId": "QuanLyYTe",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\",
+      "BasePath": "_content/QuanLyYTe",
+      "RelativePath": "ReceivedReports/202502261325#[.{fingerprint}]?",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "1o178zojvz",
+      "Integrity": "z0fGfCUm2K7SdLV18GWXj9MOrQkN7/E3yr82ISGtVQU=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ReceivedReports\\202502261325"
+    },
+    {
+      "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261328",
+      "SourceId": "QuanLyYTe",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\",
+      "BasePath": "_content/QuanLyYTe",
+      "RelativePath": "ReceivedReports/202502261328#[.{fingerprint}]?",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "dkfk1ufuiq",
+      "Integrity": "MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ReceivedReports\\202502261328"
+    },
+    {
       "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\2b38846d-cd19-423a-b22b-ff779df6bba9.pdf",
       "SourceId": "QuanLyYTe",
       "SourceType": "Discovered",
@@ -14295,6 +14337,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\ReceivedReports\\2fa30fe0-283b-476d-9953-e70ec601bdce.pdf"
+    },
+    {
+      "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\30c4fd05-8ea1-408b-9103-23ce62ba7664.pdf",
+      "SourceId": "QuanLyYTe",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\",
+      "BasePath": "_content/QuanLyYTe",
+      "RelativePath": "ReceivedReports/30c4fd05-8ea1-408b-9103-23ce62ba7664#[.{fingerprint}]?.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "k9qox9gec9",
+      "Integrity": "+J/XfPIeW6YRe9HDeGWasi1dzvrz3BSaL10dLD9P2MI=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ReceivedReports\\30c4fd05-8ea1-408b-9103-23ce62ba7664.pdf"
     },
     {
       "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\3b162fc4-31f2-4319-85f0-bf94ec5769a0.pdf",
@@ -79473,6 +79536,170 @@
       ]
     },
     {
+      "Route": "ReceivedReports/202502261325",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261325",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "99046"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"z0fGfCUm2K7SdLV18GWXj9MOrQkN7/E3yr82ISGtVQU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 06:25:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-z0fGfCUm2K7SdLV18GWXj9MOrQkN7/E3yr82ISGtVQU="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/202502261325.1o178zojvz",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261325",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "99046"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"z0fGfCUm2K7SdLV18GWXj9MOrQkN7/E3yr82ISGtVQU=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 06:25:44 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "1o178zojvz"
+        },
+        {
+          "Name": "label",
+          "Value": "ReceivedReports/202502261325"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-z0fGfCUm2K7SdLV18GWXj9MOrQkN7/E3yr82ISGtVQU="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/202502261328",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261328",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "98722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 06:28:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/202502261328.dkfk1ufuiq",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261328",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "98722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 06:28:26 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "dkfk1ufuiq"
+        },
+        {
+          "Name": "label",
+          "Value": "ReceivedReports/202502261328"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8="
+        }
+      ]
+    },
+    {
       "Route": "ReceivedReports/2b38846d-cd19-423a-b22b-ff779df6bba9.cer4crjicn.pdf",
       "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\2b38846d-cd19-423a-b22b-ff779df6bba9.pdf",
       "Selectors": [],
@@ -79715,6 +79942,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-tOtsqzJu81c0H5fi00LvP4kHJ53Hi+ZwiGK/bK42iNI="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/30c4fd05-8ea1-408b-9103-23ce62ba7664.k9qox9gec9.pdf",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\30c4fd05-8ea1-408b-9103-23ce62ba7664.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1037036"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+J/XfPIeW6YRe9HDeGWasi1dzvrz3BSaL10dLD9P2MI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 03:29:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "k9qox9gec9"
+        },
+        {
+          "Name": "label",
+          "Value": "ReceivedReports/30c4fd05-8ea1-408b-9103-23ce62ba7664.pdf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-+J/XfPIeW6YRe9HDeGWasi1dzvrz3BSaL10dLD9P2MI="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/30c4fd05-8ea1-408b-9103-23ce62ba7664.pdf",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\30c4fd05-8ea1-408b-9103-23ce62ba7664.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1037036"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"+J/XfPIeW6YRe9HDeGWasi1dzvrz3BSaL10dLD9P2MI=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 03:29:45 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-+J/XfPIeW6YRe9HDeGWasi1dzvrz3BSaL10dLD9P2MI="
         }
       ]
     },
