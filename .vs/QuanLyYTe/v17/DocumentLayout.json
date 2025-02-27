@@ -3,20 +3,44 @@
   "WorkspaceRootPath": "E:\\QuanLyYTe\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\thoihan_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\thoihan_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\thongke_ksk_dinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\thongke_ksk_dinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\views\\thongke_ksk_dinhky\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\views\\thongke_ksk_dinhky\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\trinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\trinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\taikhoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\taikhoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\ksk_dinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\ksk_dinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\views\\socapcuu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\views\\socapcuu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\views\\capphatthuoc\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\views\\capphatthuoc\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\thongke_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\thongke_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\thoihan_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\thoihan_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\taikhoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\taikhoancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\tuyenbenhviencontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -33,10 +57,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\views\\trinhky\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\views\\trinhky\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\ksk_dinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\ksk_dinhkycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\models\\ksk_benhnghenghiep.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -75,15 +95,7 @@
       "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\views\\socapcuu\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\views\\socapcuu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\views\\socapcuu\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\9.0.102\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\controllers\\thongke_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|solutionrelative:quanlyyte\\controllers\\thongke_ksk_bnncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3D5EAA66-FE3C-4917-9E59-7A1FAD9DD640}|QuanLyYTe\\QuanLyYTe.csproj|e:\\quanlyyte\\quanlyyte\\views\\trinhky\\approve.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -109,24 +121,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 1514,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\CapPhatThuoc\\Index.cshtml",
+              "RelativeDocumentMoniker": "QuanLyYTe\\Views\\CapPhatThuoc\\Index.cshtml",
+              "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\CapPhatThuoc\\Index.cshtml",
+              "RelativeToolTip": "QuanLyYTe\\Views\\CapPhatThuoc\\Index.cshtml",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-27T08:29:26.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\ThongKe_KSK_DinhKy\\Index.cshtml",
+              "RelativeDocumentMoniker": "QuanLyYTe\\Views\\ThongKe_KSK_DinhKy\\Index.cshtml",
+              "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\ThongKe_KSK_DinhKy\\Index.cshtml",
+              "RelativeToolTip": "QuanLyYTe\\Views\\ThongKe_KSK_DinhKy\\Index.cshtml",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAUwIQAAAB+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-02-27T08:18:58.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ThongKe_KSK_DinhKyController.cs",
+              "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ThongKe_KSK_DinhKyController.cs",
+              "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\ThongKe_KSK_DinhKyController.cs",
+              "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ThongKe_KSK_DinhKyController.cs",
+              "RelativeToolTip": "QuanLyYTe\\Controllers\\ThongKe_KSK_DinhKyController.cs",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAUwIAAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-27T08:18:31.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "ThoiHan_KSK_BNNController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ThoiHan_KSK_BNNController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\ThoiHan_KSK_BNNController.cs",
               "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ThoiHan_KSK_BNNController.cs",
               "RelativeToolTip": "QuanLyYTe\\Controllers\\ThoiHan_KSK_BNNController.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAowFUAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAowGgAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-26T06:24:44.499Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "TuyenBenhVienController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\TuyenBenhVienController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\TuyenBenhVienController.cs",
@@ -134,12 +185,11 @@
               "RelativeToolTip": "QuanLyYTe\\Controllers\\TuyenBenhVienController.cs",
               "ViewState": "AgIAAC4AAAAAAAAAAAAawEAAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-26T03:26:53.641Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-02-26T03:26:53.641Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
               "Title": "TaiKhoanController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\TaiKhoanController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\TaiKhoanController.cs",
@@ -152,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "EmployeeController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\EmployeeController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\EmployeeController.cs",
@@ -165,7 +215,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 13,
               "Title": "Index.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\TrinhKy\\Index.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\TrinhKy\\Index.cshtml",
@@ -177,7 +227,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 16,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\TrinhKy\\Edit.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\TrinhKy\\Edit.cshtml",
@@ -189,7 +239,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 12,
               "Title": "Export.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\TrinhKy\\Export.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\TrinhKy\\Export.cshtml",
@@ -201,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 17,
               "Title": "Index.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\SoTheoDoi_KSK\\Index.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\SoTheoDoi_KSK\\Index.cshtml",
@@ -213,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "SoTheoDoi_KSKController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\SoTheoDoi_KSKController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\SoTheoDoi_KSKController.cs",
@@ -226,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 11,
               "Title": "NhanVienController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\NhanVienController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\NhanVienController.cs",
@@ -238,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "PhanQuyenController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\PhanQuyenController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\PhanQuyenController.cs",
@@ -250,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\SoCapCuu\\Edit.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\SoCapCuu\\Edit.cshtml",
@@ -262,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\ThoiHan_KSK_BNN\\Edit.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\ThoiHan_KSK_BNN\\Edit.cshtml",
@@ -274,19 +324,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 4,
               "Title": "Index.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\SoCapCuu\\Index.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\SoCapCuu\\Index.cshtml",
               "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\SoCapCuu\\Index.cshtml",
               "RelativeToolTip": "QuanLyYTe\\Views\\SoCapCuu\\Index.cshtml",
-              "ViewState": "AgIAAH4AAAAAAAAAAAAAAFoAAACGAAAAAAAAAA==",
+              "ViewState": "AgIAABsBAAAAAAAAAADwvy8BAACWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-02-21T02:49:29.128Z"
+              "WhenOpened": "2025-02-21T02:49:29.128Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "Microsoft.NET.Sdk.StaticWebAssets.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\9.0.102\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
               "ToolTip": "C:\\Program Files\\dotnet\\sdk\\9.0.102\\Sdks\\Microsoft.NET.Sdk.StaticWebAssets\\targets\\Microsoft.NET.Sdk.StaticWebAssets.targets",
@@ -296,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "Index.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\ThoiHan_KSK_BNN\\Index.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\ThoiHan_KSK_BNN\\Index.cshtml",
@@ -308,20 +359,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 3,
               "Title": "KSK_DinhKyController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\KSK_DinhKyController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\KSK_DinhKyController.cs",
               "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\KSK_DinhKyController.cs",
               "RelativeToolTip": "QuanLyYTe\\Controllers\\KSK_DinhKyController.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAnwKEAAABIAAAAAAAAAA==",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAwwK4AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-19T07:27:55.198Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "KSK_BenhNgheNghiep.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Models\\KSK_BenhNgheNghiep.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Models\\KSK_BenhNgheNghiep.cs",
@@ -333,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 24,
               "Title": "Approve.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\TrinhKy\\Approve.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\TrinhKy\\Approve.cshtml",
@@ -345,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 25,
               "Title": "CheckInformation.cshtml",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Views\\TrinhKy\\CheckInformation.cshtml",
               "RelativeDocumentMoniker": "QuanLyYTe\\Views\\TrinhKy\\CheckInformation.cshtml",
@@ -357,7 +408,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "ChiTiet_ChiTieuNoiDung_ViTriController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ChiTiet_ChiTieuNoiDung_ViTriController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\ChiTiet_ChiTieuNoiDung_ViTriController.cs",
@@ -369,19 +420,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 6,
               "Title": "ThongKe_KSK_BNNController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ThongKe_KSK_BNNController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\ThongKe_KSK_BNNController.cs",
               "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\ThongKe_KSK_BNNController.cs",
               "RelativeToolTip": "QuanLyYTe\\Controllers\\ThongKe_KSK_BNNController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAowDQAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAE0AAAAAAAAAAAA9wDQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-02-18T04:05:14.525Z"
+              "WhenOpened": "2025-02-18T04:05:14.525Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "CapPhatThuocController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\CapPhatThuocController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\CapPhatThuocController.cs",
@@ -394,26 +446,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "appsettings.json",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\appsettings.json",
               "RelativeDocumentMoniker": "QuanLyYTe\\appsettings.json",
               "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\appsettings.json",
               "RelativeToolTip": "QuanLyYTe\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-02-18T03:23:36.319Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TrinhKyController.cs",
               "DocumentMoniker": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\TrinhKyController.cs",
               "RelativeDocumentMoniker": "QuanLyYTe\\Controllers\\TrinhKyController.cs",
               "ToolTip": "E:\\QuanLyYTe\\QuanLyYTe\\Controllers\\TrinhKyController.cs",
               "RelativeToolTip": "QuanLyYTe\\Controllers\\TrinhKyController.cs",
-              "ViewState": "AgIAAIgAAAAAAAAAAAAawL8AAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAALwCAAAAAAAAAAAUwNICAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-18T01:57:12.782Z",
               "EditorCaption": ""

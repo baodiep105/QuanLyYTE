@@ -8136,6 +8136,18 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"dkfk1ufuiq"},{"Name":"integrity","Value":"sha256-MysRw8gE0MDsHX1geB7gb\u002BXz3qOEYRb0Djx65EwE1N8="},{"Name":"label","Value":"_content/QuanLyYTe/ReceivedReports/202502261328"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"98722"},{"Name":"Content-Type","Value":"application/octet-stream"},{"Name":"ETag","Value":"\u0022MysRw8gE0MDsHX1geB7gb\u002BXz3qOEYRb0Djx65EwE1N8=\u0022"},{"Name":"Last-Modified","Value":"Wed, 26 Feb 2025 06:28:26 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QuanLyYTe/ReceivedReports/202502261341">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ReceivedReports\202502261341'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-MysRw8gE0MDsHX1geB7gb\u002BXz3qOEYRb0Djx65EwE1N8="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"98722"},{"Name":"Content-Type","Value":"application/octet-stream"},{"Name":"ETag","Value":"\u0022MysRw8gE0MDsHX1geB7gb\u002BXz3qOEYRb0Djx65EwE1N8=\u0022"},{"Name":"Last-Modified","Value":"Wed, 26 Feb 2025 06:41:15 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/QuanLyYTe/ReceivedReports/202502261341.dkfk1ufuiq">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ReceivedReports\202502261341'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"dkfk1ufuiq"},{"Name":"integrity","Value":"sha256-MysRw8gE0MDsHX1geB7gb\u002BXz3qOEYRb0Djx65EwE1N8="},{"Name":"label","Value":"_content/QuanLyYTe/ReceivedReports/202502261341"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"98722"},{"Name":"Content-Type","Value":"application/octet-stream"},{"Name":"ETag","Value":"\u0022MysRw8gE0MDsHX1geB7gb\u002BXz3qOEYRb0Djx65EwE1N8=\u0022"},{"Name":"Last-Modified","Value":"Wed, 26 Feb 2025 06:41:15 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/QuanLyYTe/ReceivedReports/2b38846d-cd19-423a-b22b-ff779df6bba9.cer4crjicn.pdf">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\ReceivedReports\2b38846d-cd19-423a-b22b-ff779df6bba9.pdf'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

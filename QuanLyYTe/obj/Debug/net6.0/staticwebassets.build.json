@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "8lCS1FBRbbilUr7VLCrkfH2jBRgH4BcfBQJUmTpGbGw=",
+  "Hash": "L3uG6r+nHOYHRkg9TMIGXj9f21WMWwK+pn5EKdjhbDI=",
   "Source": "QuanLyYTe",
   "BasePath": "_content/QuanLyYTe",
   "Mode": "Default",
@@ -14274,6 +14274,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\ReceivedReports\\202502261328"
+    },
+    {
+      "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261341",
+      "SourceId": "QuanLyYTe",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\",
+      "BasePath": "_content/QuanLyYTe",
+      "RelativePath": "ReceivedReports/202502261341#[.{fingerprint}]?",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "dkfk1ufuiq",
+      "Integrity": "MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ReceivedReports\\202502261341"
     },
     {
       "Identity": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\2b38846d-cd19-423a-b22b-ff779df6bba9.pdf",
@@ -79692,6 +79713,88 @@
         {
           "Name": "label",
           "Value": "ReceivedReports/202502261328"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/202502261341",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261341",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "98722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 06:41:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8="
+        }
+      ]
+    },
+    {
+      "Route": "ReceivedReports/202502261341.dkfk1ufuiq",
+      "AssetFile": "E:\\QuanLyYTe\\QuanLyYTe\\wwwroot\\ReceivedReports\\202502261341",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "98722"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"MysRw8gE0MDsHX1geB7gb+Xz3qOEYRb0Djx65EwE1N8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 26 Feb 2025 06:41:15 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "dkfk1ufuiq"
+        },
+        {
+          "Name": "label",
+          "Value": "ReceivedReports/202502261341"
         },
         {
           "Name": "integrity",

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuanLyYTe.Models.KSK_DinhKy>
+﻿@model IEnumerable<QuanLyYTe.Models.PhongBan>
 
 
 @if (TempData["msgSuccess"] != null)
@@ -23,7 +23,7 @@
 
 }
 @{
-    var List_BP = ViewData["PhongBan"] as List<QuanLyYTe.Models.PhongBan>;
+    var data = ViewData["data"] as List<QuanLyYTe.Models.KSK_DinhKy>;
     var List_PL = ViewData["PhanLoaiKSK"] as List<QuanLyYTe.Models.PhanLoaiKSK>;
 }
 <div class="wrapper">
@@ -119,11 +119,9 @@
                                                 int itemperpage = (int)pager.PageSize;
                                                 int RowNo = ((pageno - 1) * itemperpage) + 1;
                                             }
-                                            @foreach (var item in List_BP)
+                                            @foreach (var item in Model)
                                             {
-                                                var Count = Model.Where(x => x.ID_PhongBan == item.ID_PhongBan).Count();
-                                                if (Count > 0)
-                                                {
+                                                
                                                     <tr>
                                                         <td class="text-center">
                                                             @RowNo@{
@@ -132,17 +130,17 @@
                                                         </td>
 
                                                         <td>@item.TenPhongBan</td>
-                                                        <td class="text-center">@Count </td>
+                                                        <td class="text-center">@data.Where(x=>x.ID_PhongBan==item.ID_PhongBan).Count() </td>
                                                         @foreach(var pl in List_PL)
                                                         {
-                                                            var count_pl = Model.Where(x => x.ID_PhanLoaiKSK == pl.ID_PhanLoaiKSK && x.ID_PhongBan == item.ID_PhongBan).Count();
+                                                            var count_pl = data.Where(x => x.ID_PhanLoaiKSK == pl.ID_PhanLoaiKSK && x.ID_PhongBan == item.ID_PhongBan).Count();
                                                             <td class="text-center">
                                                                 @count_pl
                                                               </td>
                                                         }
                                                    
                                                     </tr>
-                                                }
+                                                
 
                                             }
                                             <tr style="background-color: #4680ff; color: white;">
@@ -150,12 +148,12 @@
                                                     Tổng số Khu liên hợp
                                                 </td>
                                                 @{
-                                                    var Count_klh = Model.Count();
+                                                    var Count_klh = data.Count();
                                                 }
-                                                <td class="text-center">@Count_klh </td>
+                                                <td class="text-center"> @Count_klh</td>
                                                 @foreach (var pl in List_PL)
                                                 {
-                                                    var count_pl = Model.Where(x => x.ID_PhanLoaiKSK == pl.ID_PhanLoaiKSK).Count();
+                                                    var count_pl = data.Where(x => x.ID_PhanLoaiKSK == pl.ID_PhanLoaiKSK).Count();
                                                     <td class="text-center">
                                                         @count_pl
                                                     </td>
@@ -172,7 +170,7 @@
                                             @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
                                             {
                                                 <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
-                                                    <a class="page-link" asp-asp-controller="ThongKe_KSK_DinhKy" asp-action="Index" asp-route-page="@pge">@pge</a>
+                                                    <a class="page-link" href="@Url.Action("Index","ThongKe_KSK_DinhKy",new{ page=pge, begind=@ViewData["begind"] ,endd=ViewData["endd"]} )">@pge</a>
 
                                                 </li>
 
@@ -181,10 +179,10 @@
                                             @if (pager.CurrentPage < pager.TotalPages)
                                             {
                                                 <li class="page-item">
-                                                    <a class="page-link" asp-asp-controller="ThongKe_KSK_DinhKy" asp-action="Index" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                    <a class="page-link" href="@Url.Action("Index","ThongKe_KSK_DinhKy",new{ page=@pager.CurrentPage + 1, begind=@ViewData["begind"] ,endd=ViewData["endd"]} )">Next</a>
                                                 </li>
                                                 <li class="page-item">
-                                                    <a class="page-link" asp-asp-controller="ThongKe_KSK_DinhKy" asp-action="Index" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                    <a class="page-link" href="@Url.Action("Index","ThongKe_KSK_DinhKy",new{ page=@pager.TotalPages, begind=@ViewData["begind"] ,endd=ViewData["endd"]} )">Last</a>
                                                 </li>
                                             }
                                         </ul>
