@@ -1,0 +1,242 @@
+﻿@model IEnumerable<QuanLyYTe.Models.PhongBan>
+
+
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+@{
+    var data = ViewData["data"] as List<QuanLyYTe.Models.KSK_DinhKy>;
+    var List_PL = ViewData["PhanLoaiKSK"] as List<QuanLyYTe.Models.PhanLoaiKSK>;
+}
+<div class="wrapper">
+    <div class="page-wrap">
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div>
+
+                                <div class="card-header">
+                                    <div class="row" style="padding:1%;flex-wrap: inherit;border-bottom: 1px solid #e2e5e8;">
+
+                                        <div class="col-md-1" style="padding-top:0.75%;text-align: right;">
+                                            <span class="text-center" style="margin-top: 8px"><b>TỪ NGÀY :</b></span>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.TextBox("begind", null, new { @id = "begind", @type = "date", @class = "form-control" })
+                                        </div>
+                                        <div class="col-md-1" style="padding-top:0.75%;text-align: right;">
+                                            <span class="text-center" style="margin-top: 8px"><b>ĐẾN NGÀY :</b></span>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            @Html.TextBox("endd", null, new { @id = "endd", @type = "date", @class = "form-control" })
+                                        </div>
+                                        <div class="col-md-3" style="display:flex;">
+                                            <div>
+                                                <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="display:flex;">
+                                            <div style="padding-left: 20%;">
+                                                <button type="button" style="border-radius: 10px;" id="btn-Export" class="btn btn-primary pull-right"> <i class="bi bi-download"></i> Xuất Excel</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div style="text-align:left;width:89%">
+                                        <img style="width: 15%;" src="~/images/logoHP.png">
+                                        <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                            <b>
+                                                CÔNG TY CỔ PHẦN THÉP<br />
+                                                HÒA PHÁT DUNG QUẤT
+                                            </b>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                    </div>
+
+                                </div>
+                                <div class="app-page-title" style="display: contents;">
+                                    <div class="page-title-wrapper" style=" display: contents;">
+                                        <div class="page-title-heading">
+                                            <div style="text-align:center;">
+                                                <h4 style="margin:0px;">
+                                                    <b>
+                                                        SỐ LƯỢT KHÁM SỨC KHỎE ĐỊNH KỲ
+                                                    </b>
+                                                </h4>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="table-responsive" style="overflow-y: scroll; height: 30vw;">
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="250px" rowspan="2" class="text-center" style="vertical-align:middle">Bộ phận Nhà máy</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Tổng số lượng</th>
+                                                <th width="50px" colspan="@List_PL.Count()" class="text-center" style="vertical-align:middle">Thông kế phân loại khám sức khỏe</th>
+                                          @*      <th width="50px" colspan="@List_PL.Count()" class="text-center" style="vertical-align:middle">Thông kế bệnh lý kh sức khỏe</th>*@
+                                            </tr>                                 
+                                                <tr>
+                                                    @foreach (var pl in List_PL)
+                                                    {
+                                                        <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Tổng số @pl.TenLoaiKSK</th>
+                                                    }
+                                                </tr>                                           
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+                                            @foreach (var item in Model)
+                                            {
+                                                
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            @RowNo@{
+                                                                RowNo++;
+                                                            }
+                                                        </td>
+
+                                                        <td>@item.TenPhongBan</td>
+                                                        <td class="text-center">@data.Where(x=>x.ID_PhongBan==item.ID_PhongBan).Count() </td>
+                                                        @foreach(var pl in List_PL)
+                                                        {
+                                                            var count_pl = data.Where(x => x.ID_PhanLoaiKSK == pl.ID_PhanLoaiKSK && x.ID_PhongBan == item.ID_PhongBan).Count();
+                                                            <td class="text-center">
+                                                                @count_pl
+                                                              </td>
+                                                        }
+                                                   
+                                                    </tr>
+                                                
+
+                                            }
+                                            <tr style="background-color: #4680ff; color: white;">
+                                                <td class="text-center" colspan="2">
+                                                    Tổng số Khu liên hợp
+                                                </td>
+                                                @{
+                                                    var Count_klh = data.Count();
+                                                }
+                                                <td class="text-center"> @Count_klh</td>
+                                                @foreach (var pl in List_PL)
+                                                {
+                                                    var count_pl = data.Where(x => x.ID_PhanLoaiKSK == pl.ID_PhanLoaiKSK).Count();
+                                                    <td class="text-center">
+                                                        @count_pl
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="container" style="padding-top:0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" href="@Url.Action("Index","ThongKe_KSK_DinhKy",new{ page=pge, begind=@ViewData["begind"] ,endd=ViewData["endd"]} )">@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" href="@Url.Action("Index","ThongKe_KSK_DinhKy",new{ page=@pager.CurrentPage + 1, begind=@ViewData["begind"] ,endd=ViewData["endd"]} )">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="@Url.Action("Index","ThongKe_KSK_DinhKy",new{ page=@pager.TotalPages, begind=@ViewData["begind"] ,endd=ViewData["endd"]} )">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    //Show datetime current
+    $(document).ready(function () {
+        var dateNewFormat, onlyDate, today = new Date();
+
+        dateNewFormat = today.getFullYear() + '-';
+        if (today.getMonth() >= 9) {
+
+            dateNewFormat += (today.getMonth() + 1);
+        }
+        else {
+            dateNewFormat += '0' + (today.getMonth() + 1);
+        }
+
+        onlyDate = today.getDate();
+        if (onlyDate.toString().length == 2) {
+
+            dateNewFormat += "-" + onlyDate;
+        }
+        else {
+            dateNewFormat += '-0' + onlyDate;
+        }
+        if ($('#begind').val() == '') {
+            $('#begind').val(dateNewFormat);
+        }
+        if ($('#endd').val() == '') {
+            $('#endd').val(dateNewFormat);
+        }
+    });
+
+    $("#btn-search").on('click', function () {
+        var IDPhongBan = $('#IDPhongBan').val();
+        window.location.href = '@Url.Action("Index", "ThongKe_KSK_DinhKy")?IDPhongBan=' + IDPhongBan + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+    });
+
+    $('#btn-Export').click(function () {
+        var IDPhongBan = $('#IDPhongBan').val();
+        window.location.href = '@Url.Action("ExportToExcel","ThongKe_KSK_DinhKy")?IDPhongBan=' + $('#IDPhongBan').val() + '&begind=' + $('#begind').val() + '&endd=' + $('#endd').val();
+
+    });
+</script>

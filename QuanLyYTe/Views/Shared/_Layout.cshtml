@@ -1,0 +1,251 @@
+﻿@using QuanLyYTe.Models
+@using System.Security.Claims;
+@using QuanLyYTe.Repositorys;
+@using Microsoft.EntityFrameworkCore;
+@inject QuanLyYTe.Repositorys.DataContext _context
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Quản lý Y tế</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+
+    <link href="~/favicon.ico" rel="icon">
+    <link href="~/favicon.ico" rel="apple-touch-icon">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="~/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <!-- Favicon icon -->
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" type="text/css" href="~/vendor/DataTables/datatables.min.css" />
+ @*   <script type="text/javascript" src="~/vendor/DataTables/datatables.min.js"></script>*@
+    <link href="~/css/style_admin.css" rel="stylesheet">
+
+</head>
+<body style="margin:0px;">
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        Context.Response.Redirect(Url.Action("Index", "login"));
+    }
+    @{
+        var TenDangNhap = User.FindFirstValue(ClaimTypes.Name);
+        var list = _context.TaiKhoan.Where(x => x.TenDangNhap == TenDangNhap).FirstOrDefault();
+    }
+    <div class="loader-bg">
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+    <nav class="pcoded-navbar menu-light " style="border-radius:0px;position: fixed;">
+        <div class="navbar-wrapper  ">
+            <div class="navbar-content scroll-div ">
+                <ul class="nav pcoded-inner-navbar" style="padding-bottom: 20%">
+                    @{
+                        if (list != null)
+                        {
+                            if(list.ID_Quyen == 1)
+                            {
+                                <li class="nav-item pcoded-menu-caption">
+                                    <label>QUẢN TRỊ</label>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "TaiKhoan")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-person-fill"></i></span><span class="pcoded-mtext">Tài khoản</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "NhanVien")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-people-fill"></i></span><span class="pcoded-mtext">Nhân viên</span></a>
+                                </li>
+                            }
+                        }
+                    }
+ 
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>DỮ LIỆU</label>
+                    </li>
+                    @{
+                        if (list != null)
+                        {
+                            if (list.ID_Quyen == 1 || list.ID_Quyen == 2)
+                            {
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "DanhSachDocHai")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-cone"></i></span><span class="pcoded-mtext">Danh mục độc hại</span></a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "DanhSachThuoc")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-cone"></i></span><span class="pcoded-mtext">Danh mục loại thuốc</span></a>
+                                </li>
+                            }
+                        }
+                    }
+
+
+                    <li class="nav-item pcoded-hasmenu">
+                        <a href="#!" class="nav-link "><span class="pcoded-micon"><i class="bi bi-cone-striped"></i></span><span class="pcoded-mtext">Vị trí làm việc</span></a>
+              
+                        <ul class="pcoded-submenu">
+                            <li>
+                                <a href="@Url.Action("Index", "ViTriLaoDong")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-universal-access"></i></span><span class="pcoded-mtext">Vị trí lao động</span></a>
+                           </li>
+                            <li>
+                                <a href="@Url.Action("Index_", "ViTriLaoDong")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-universal-access-circle"></i></span><span class="pcoded-mtext">Vị trí nhân sự</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    @{
+                        if (list != null)
+                        {
+                            if (list.ID_Quyen == 1 || list.ID_Quyen == 2)
+                            {
+                                <li class="nav-item pcoded-menu-caption">
+                                    <label>THĂM KHÁM BỆNH LÝ</label>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "CapPhatThuoc")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-shield-fill-minus"></i></span><span class="pcoded-mtext">Cấp phát thuốc</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "SoCapCuu")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-shield-fill-plus"></i></span><span class="pcoded-mtext">Sơ cấp cứu</span></a>
+                                </li>
+                            }
+                        }
+                    }
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>THỜI HẠN</label>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "ThoiHan_KSK_DK")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-calendar-range-fill"></i></span><span class="pcoded-mtext">Khám định kỳ</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "TrinhKy")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-send-check-fill"></i></span><span class="pcoded-mtext">Trình ký</span></a>
+                    </li>
+
+                    <li class="nav-item pcoded-menu-caption">
+                        <label>KHÁM SỨC KHỎE</label>
+                    </li>
+                    @{
+                        if (list != null)
+                        {
+                            if (list.ID_Quyen == 1 || list.ID_Quyen == 2)
+                            {
+                                <li class="nav-item pcoded-hasmenu">
+                                    <a> <span class="pcoded-micon"><i class="bi bi-clipboard-check-fill"></i></span><span class="pcoded-mtext">Cập nhật kết quả  </span></a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "KSK_TuyenDung")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-clipboard-check-fill"></i></span><span class="pcoded-mtext">KSK Tuyển dụng</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "KSK_ChuyenViTri")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-clipboard-x-fill"></i></span><span class="pcoded-mtext">KSK Chuyển vị trí</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "KSK_DinhKy")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-clipboard-data-fill"></i></span><span class="pcoded-mtext">KSK Định kỳ</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="@Url.Action("Index", "ThoiHan_KSK_BNN")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-calendar-week-fill"></i></span><span class="pcoded-mtext">Khám nghề nghiệp</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    }
+
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "SoTheoDoi_KSK")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-clipboard-fill"></i></span><span class="pcoded-mtext">Sổ theo dõi</span></a>
+                    </li>
+
+                  
+
+
+                    @{
+                        if (list != null)
+                        {
+                            if (list.ID_Quyen == 1 || list.ID_Quyen == 2 || list.ID_Quyen == 4)
+                            {
+                                <li class="nav-item pcoded-menu-caption">
+                                    <label>PHÊ DUYỆT</label>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("No_Processing", "TrinhKy")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-chat-left-dots-fill"></i></span><span class="pcoded-mtext">Chưa xử lý</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Processing", "TrinhKy")" class="nav-link "><span class="pcoded-micon"><i class="bi bi-chat-left-fill"></i></span><span class="pcoded-mtext">Đã xử lý</span></a>
+                                </li>
+                            }
+                        }
+                    }
+
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <header class="navbar pcoded-header navbar-expand-lg navbar-light header-blue" style="height:70px; background-color:white;box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);position: sticky;">
+        <div class="m-header">
+            <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+            <a href="@Url.Action("Index", "Home")" class="b-brand">
+                <img src="~/images/logoHP.png" style="width: 90%;" class="header-brand-img" alt="lavalite">
+            </a>
+
+        </div>
+        <div style="margin: auto;">
+            <h5 style="color:#0056b3;">
+                CÔNG TY CỔ PHẦN THÉP HÒA PHÁT DUNG QUẤT
+            </h5>
+            <h6 style="color:#2770be;text-align: center;">
+                " Hòa hợp cùng phát triển "
+            </h6>
+        </div>
+        <div class="dropdown drp-user" style="margin-right: 25px;">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <img style="width: 120%;" class="img-radius" src="~/images/user/HPG.png" alt="User-Profile-Image">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right profile-notification">
+                <div class="pro-head">
+                    <img class="img-radius" src="~/images/user/HPG.png" alt="User-Profile-Image">
+                    <span>@TenDangNhap</span>
+                </div>
+                <ul class="pro-body">
+                    <li><a href="@Url.Action("ChangePassword", "Login")" class="dropdown-item"><i class="feather icon-settings m-r-5"></i> Đổi mật khẩu</a></li>
+                    <li><a href="@Url.Action("Logout", "Login")" class="dropdown-item"><i class="feather icon-log-out m-r-5"></i> Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="pcoded-main-container">
+        <div class="pcoded-content" style="padding: 0px 5px;">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="~/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/chart.js/chart.umd.js"></script>
+    <script src="~/vendor/echarts/echarts.min.js"></script>
+    <script src="~/vendor/quill/quill.min.js"></script>
+    <script src="~/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/vendor/php-email-form/validate.js"></script>
+    <script src="~/js/main_admin.js"></script>
+    <script src="~/js/vendor-all.min.js"></script>
+    <script src="~/js/plugins/bootstrap.min.js"></script>
+    <script src="~/js/ripple.js"></script>
+    <script src="~/js/pcoded.min.js"></script>
+    <!-- Apex Chart -->
+    <script src="~/js/plugins/apexcharts.min.js"></script>
+    <!-- custom-chart js -->
+    <script src="~/js/pages/dashboard-main.js"></script>
+
+</body>
+</html>

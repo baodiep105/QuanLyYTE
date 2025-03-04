@@ -1,0 +1,223 @@
+﻿@model QuanLyYTe.Models.KSK_DauVao
+
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+
+
+@using (Html.BeginForm("Create", "KSK_TuyenDung", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Họ và tên</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.HoVaTen, new { htmlAttributes = new { @class = "form-control", placeholder = "Họ và tên", @id = "HoVaTen" } })
+                                        @Html.ValidationMessageFor(model => model.HoVaTen, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ngày sinh</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.NgaySinh, new { htmlAttributes = new {  @class = "form-control", @type = "date", placeholder = "Ngày sinh", @id = "NgaySinh" } })
+                                        @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Giới tính</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_GioiTinh, ViewBag.GTList as SelectList, "---- Chọn giới tính ----", new {  @style="text-align: center;", @id = "ID_GioiTinh", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_GioiTinh, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Nghề nghiệp</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.NgheNghiep, new { htmlAttributes = new { @class = "form-control", placeholder = "Nghề nghiệp", @id = "NgheNghiep" } })
+                                        @Html.ValidationMessageFor(model => model.NgheNghiep, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Hộ khẩu</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.HoKhau, new { htmlAttributes = new { @class = "form-control", placeholder = "Hộ khẩu", @id = "HoKhau" } })
+                                        @Html.ValidationMessageFor(model => model.HoKhau, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6" style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Kết quả</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_KetQuaDV, ViewBag.KQList as SelectList, "---- Chọn kết qủa ----", new {  @style="text-align: center;",@id = "ID_KetQuaDV", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_KetQuaDV, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Lý do không đạt</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.ID_LyDo, ViewBag.LDList as SelectList, "---- Chọn lý do ----", new { @style="text-align: center;", @id = "ID_LyDo", @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ID_LyDo, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ngày khám</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.NgayKham, new { htmlAttributes = new { @class = "form-control", @type = "date", placeholder = "Ngày khám", @id = "NgayKham" }})
+                                        @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Ghi chú</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.GhiChu, new { htmlAttributes = new { @class = "form-control", placeholder = "Ghi chú", @id = "GhiChu" }})
+                                        @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .modal-body {
+        box-sizing: border-box;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        max-height: 750px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 16px 16px;
+    }
+</style>
+<script type="text/javascript">
+    $("#ID_GioiTinh").chosen({
+        width: "100%"
+    });
+    $("#ID_KetQuaDV").chosen({
+        width: "100%"
+    });
+    $("#ID_LyDo").chosen({
+        width: "100%"
+    });
+</script>

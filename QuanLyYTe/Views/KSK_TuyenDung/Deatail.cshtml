@@ -1,0 +1,238 @@
+﻿@using QuanLyYTe.Models
+@model IEnumerable<QuanLyYTe.Models.KSK_DauVao>
+@if (TempData["msgSuccess"] != null)
+{
+    @Html.Raw(TempData["msgSuccess"])
+}
+@if (TempData["msgError"] != null)
+{
+    @Html.Raw(TempData["msgError"])
+}
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+
+}
+@{
+    string CCCD = ViewBag.ID_NV;
+}
+<div class="wrapper">
+    <div class="page-wrap">
+
+
+        <div class="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div style="display: flex;padding-top:1%;">
+                                <div style="text-align:left;width:89%">
+                                    <img style="width: 15%;" src="~/images/logoHP.png">
+                                    <div style="text-align: center; width: 14%; font-size: 11px; padding-top:0.5%;">
+                                        <b>
+                                            CÔNG TY CỔ PHẦN THÉP<br />
+                                            HÒA PHÁT DUNG QUẤT
+                                        </b>
+                                    </div>
+                                </div>
+                                <div>
+                                    <a href="@Url.Action("Index","SoTheoDoi_KSK", new{search = CCCD})">
+                                        <button type="button" href='' class="btn btn-warning"><i class="bi bi-arrow-left-square" style="padding-right: 5px;"></i> Trở về</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="app-page-title" style="display: contents;">
+                                <div class="page-title-wrapper" style=" display: contents;">
+                                    <div class="page-title-heading">
+                                        <div style="text-align:center;">
+                                            <h4 style="margin:0px;">
+                                                <b>
+                                                    SỔ THEO DÕI SỨC KHỎE ĐẦU VÀO
+                                                </b>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" >
+                                    <table class="table table-bordered table-hover" id="table" cellpadding="0">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th width="30px" rowspan="2" style="vertical-align:middle">STT</th>
+                                                <th width="150px" rowspan="2" class="text-center" style="vertical-align:middle">Họ và tên</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày sinh</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Giới tính</th>
+                                                <th width="200px" rowspan="2" class="text-center" style="vertical-align:middle">Nghề nghiệp</th>
+                                                <th width="250px" rowspan="2" class="text-center" style="vertical-align:middle">Hộ khẩu</th>
+                                                <th width="10px" colspan="3" class="text-center" style="vertical-align:middle">Kết quả</th>
+                                                <th width="100px" rowspan="2" class="text-center"> Lý do không đạt</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Ngày khám</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Ghi chú</th>
+                                                <th width="100px" rowspan="2" class="text-center" style="vertical-align:middle">Thao tác</th>
+                                            </tr>
+                                            <tr>
+                                                <th width="10px" class="text-center">Đạt</th>
+                                                <th width="10px" class="text-center">Không đạt</th>
+                                                <th width="10px" class="text-center">Xem xét</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int pageno = (int)pager.CurrentPage;
+                                                int itemperpage = (int)pager.PageSize;
+                                                int RowNo = ((pageno - 1) * itemperpage) + 1;
+                                            }
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td> @item.HoVaTen </td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NS = (DateTime)item.NgaySinh;
+                                                        }
+                                                        @NS.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center">@item.TenGioiTinh</td>
+                                                    <td> @item.NgheNghiep</td>
+                                                    <td> @item.HoKhau</td>
+                                                    @if (item.ID_KetQuaDV == 1)
+                                                    {
+                                                        <td class="text-center">
+                                                            <span>
+                                                                X
+                                                            </span>
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    }
+                                                    @if (item.ID_KetQuaDV == 2)
+                                                    {
+                                                        <td></td>
+                                                        <td class="text-center">
+                                                            <span>
+                                                                X
+                                                            </span>
+                                                        </td>
+
+                                                        <td></td>
+                                                    }
+                                                    @if (item.ID_KetQuaDV == 3)
+                                                    {
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td class="text-center">
+                                                            <span>
+                                                                X
+                                                            </span>
+                                                        </td>
+
+                                                    }
+                                                    <td>@item.TenLyDo</td>
+                                                    <td class="text-center">
+                                                        @{
+                                                            DateTime NK = (DateTime)item.NgayKham;
+                                                        }
+                                                        @NK.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td>@item.GhiChu</td>
+                                                    <td class="text-center">
+                                                        <a class="bi bi-trash-fill" title="Xóa" href="@Url.Action("Delete", "KSK_TuyenDung", new { id = item.ID_KSK_DV,page = pageNo  })"
+                                                           onclick="return confirm('Bạn muốn xóa : @item.HoVaTen')">
+                                                        </a>
+
+
+                                                        <a id="btn-edit_@item.ID_KSK_DV" title="Chỉnh sửa" class="bi bi-pencil-square" style="cursor:pointer"></a>
+                                                        <div class="modal " id="myModaleF_@item.ID_KSK_DV" role="dialog" data-url='@Url.Action("Edit","KSK_TuyenDung",new{id = item.ID_KSK_DV,page = pageNo})'></div>
+                                                        <script type="text/javascript">
+                                                            $("#btn-edit_@item.ID_KSK_DV").click(function () {
+                                                                var url = $('#myModaleF_@item.ID_KSK_DV').data('url');
+                                                                $.get(url, function (data) {
+                                                                    $("#myModaleF_@item.ID_KSK_DV").html(data);
+                                                                    $("#ModalTitle").html("CHỈNH SỨA THÔNG TIN");
+                                                                    $("#myModaleF_@item.ID_KSK_DV").modal('show');
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="container" style="padding-top: 0.5%;">
+                                    @if (pager.TotalPages > 0)
+                                    {
+                                        <ul class="pagination justify-content-start " style="margin:0px;">
+                                            @for (var pge = pager.StartPages; pge <= pager.EndPages; pge++)
+                                            {
+                                                <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                                                    <a class="page-link" asp-asp-controller="KSK_TuyenDung" asp-action="Deatail" asp-route-page="@pge">@pge</a>
+
+                                                </li>
+
+                                            }
+
+                                            @if (pager.CurrentPage < pager.TotalPages)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="KSK_TuyenDung" asp-action="Deatail" asp-route-page="@(pager.CurrentPage + 1)">Next</a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" asp-asp-controller="KSK_TuyenDung" asp-action="Deatail" asp-route-page="@(pager.TotalPages)">Last</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $('#btn-add').click(function () {
+        var url = $('#myModal').data('url');
+        $.get(url, function (data) {
+            $("#myModal").html(data);
+            $("#ModalTitle").html("THÊM MỚI TUYỂN DỤNG");
+            $("#myModal").modal('show');
+        });
+    });
+
+    //Import Excel
+    $('#btn-Import').click(function () {
+        var url = $('#myModalImportExcel').data('url');
+        $.get(url, function (data) {
+            $("#myModalImportExcel").html(data);
+            $("#ModalTitle").html("IMPORT DANH SÁCH TUYỂN DỤNG");
+            $("#myModalImportExcel").modal('show');
+        });
+    });
+    $("#btn-search").on('click', function () {
+        var search = $('#txtsearch').val();
+        window.location.href = '@Url.Action("Index", "KSK_TuyenDung")?search=' + search;
+    });
+</script>

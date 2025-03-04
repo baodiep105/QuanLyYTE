@@ -1,0 +1,32 @@
+﻿@model QuanLyYTe.Models.TrinhKy
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+@using (Html.BeginForm("CheckInformation", "TrinhKy", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID_TK)
+
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 " style="text-align: center;">
+                    <label class="form-label fw-bold">Trưởng phó BP/NM</label>
+                    @Html.DropDownListFor(model => model.TruongPho, ViewBag.TPBPList as SelectList, "---- Chọn trưởng phó BP/NM ----", new { @style="text-align: center;", @id = "TruongPho", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TruongPho, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $("#TruongPho").chosen({
+        width: "100%"
+    });
+</script>

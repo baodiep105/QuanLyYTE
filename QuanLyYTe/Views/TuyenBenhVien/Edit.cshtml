@@ -1,0 +1,81 @@
+﻿@model QuanLyYTe.Models.TuyenBenhVien
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+@using (Html.BeginForm("Edit", "TuyenBenhVien", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID_TuyenBenhVien)
+    @Html.HiddenFor(model => model.ID_SCC)
+    @Html.HiddenFor(model => model.ThuTu)
+    @Html.HiddenFor(model => model.ChungTu)
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Tên bệnh viện</label>
+                        @Html.EditorFor(model => model.TenBenhVien, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên bệnh viện", @id = "TenBenhVien" } })
+                        @Html.ValidationMessageFor(model => model.TenBenhVien, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Y tế phụ trách</label>
+                        @Html.EditorFor(model => model.Ytephutrach, new { htmlAttributes = new { @class = "form-control", placeholder = "Y tế phụ trách", @id = "Ytephutrach" } })
+                        @Html.ValidationMessageFor(model => model.Ytephutrach, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center;">
+                        <label class="form-label fw-bold">Thời gian chuyển viện</label>
+                        @Html.TextBox("ThoiGianChuyenVien", null, new { @id = "ThoiGianChuyenVien", @type = "date", @class = "form-control",@Value = ViewBag.ThoiGianChuyenVien})
+                        @Html.ValidationMessageFor(model => model.ThoiGianChuyenVien, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 " style="text-align: center;">
+                        <label class="form-label fw-bold">Tạm ứng</label>
+                        @Html.EditorFor(model => model.TamUng, new { htmlAttributes = new { @class = "form-control", placeholder = "Tạm ứng", @id = "TamUng" } })
+                        @Html.ValidationMessageFor(model => model.TamUng, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-6 " style="text-align: center;">
+                        <label class="form-label fw-bold">Thanh toán/ Hoàn ứng</label>
+                        @Html.EditorFor(model => model.ThanhToan, new { htmlAttributes = new { @class = "form-control", placeholder = "Thanh toán/ Hoàn ứng", @id = "TenBenhVien" } })
+                        @Html.ValidationMessageFor(model => model.ThanhToan, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" style="text-align: center;">
+                        <label class="form-label fw-bold">Thời gian điều trị</label>
+                        @Html.EditorFor(model => model.ThoiGianDieuTri, new { htmlAttributes = new {  @class = "form-control", placeholder = "Thời gian điều trị", @id = "ThoiGianDieuTri" } })
+                        @Html.ValidationMessageFor(model => model.ThoiGianDieuTri, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <label class="form-label fw-bold">Chọn file PDF</label>
+                        <input type="file" name="uploadedFile" accept=".pdf" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $("#ID_NV").chosen({
+        width: "100%"
+    });
+    $("#ID_PhongBan").chosen({
+        width: "100%"
+    });
+    $("#ID_NhomBenh").chosen({
+        width: "100%"
+    });
+</script>

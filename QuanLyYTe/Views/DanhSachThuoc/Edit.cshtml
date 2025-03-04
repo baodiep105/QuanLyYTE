@@ -1,0 +1,54 @@
+﻿@model QuanLyYTe.Models.LoaiThuoc
+<script src="~/Chonse/chosen.jquery.js"></script>
+<link href="~/Chonse/chosen.css" rel="stylesheet">
+@using (Html.BeginForm("Edit", "DanhSachThuoc", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ID_LoaiThuoc)
+
+    <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 2000px;">
+            <div class="modal-header">
+                <h5 id="ModalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 " style="text-align: center;">
+                        <table class="table table-bordered table-hover" id="table" width="100%" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Tên loại thuốc</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.TenThuoc, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên loại thuốc", @id = "TenThuoc" } })
+                                        @Html.ValidationMessageFor(model => model.TenThuoc, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" style="border-radius: 10px;margin-right: 4%;" value="Xác nhận" id="btnSubmit" class="btn btn-primary pull-right" />
+            </div>
+        </div>
+    </div>
+}
+<style>
+    .modal-body {
+        box-sizing: border-box;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        max-height: 750px;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 16px 16px;
+    }
+</style>
