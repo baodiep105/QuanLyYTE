@@ -1,5 +1,5 @@
 ﻿@using QuanLyYTe.Models
-@model IEnumerable<QuanLyYTe.Models.KSK_DauVao>
+@model IEnumerable<ThongKeSKDV>
 @if (TempData["msgSuccess"] != null)
 {
     @Html.Raw(TempData["msgSuccess"])
@@ -55,7 +55,7 @@
                                             <div>
                                                 <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
                                             </div>
-                 
+
                                         </div>
                                         <div class="col-md-3" style="display:flex;">
                                             <div style="padding-left: 20%;">
@@ -129,114 +129,79 @@
 
                                                 string NgayKham = "";
                                             }
-                                         
+
                                             @foreach (var item in Model)
                                             {
-                                                string Day = item.NgayKham.ToString();
-                                                if (NgayKham !=  Day)
-                                                {
-                                                    NgayKham = item.NgayKham.ToString();
-                                                    <tr>
 
-                                                        <td class="text-center">
-                                                            @RowNo@{
-                                                                RowNo++;
-                                                            }
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                DateTime NK = (DateTime)item.NgayKham;
-                                                            }
-                                                            @NK.ToString("dd/MM/yyyy")
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var SoLuongKham = Model.Where(x=>x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @SoLuongKham
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var SoLuongDat = Model.Where(x => x.ID_KetQuaDV == 1 && x.NgayKham == item.NgayKham).Count();
-                                                             }
-                                                            @SoLuongDat
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var SoLuongKhongDat = Model.Where(x => x.ID_KetQuaDV == 2 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @SoLuongKhongDat
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var HinhXam = Model.Where(x => x.ID_LyDo == 1 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @HinhXam
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var ThiLuc = Model.Where(x => x.ID_LyDo == 2 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @ThiLuc
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var BenhLy = Model.Where(x => x.ID_LyDo == 3 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @BenhLy
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var TimMach = Model.Where(x => x.ID_LyDo == 4 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @TimMach
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var ThanKinh = Model.Where(x => x.ID_LyDo == 5 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @ThanKinh
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var TheTrang = Model.Where(x => x.ID_LyDo == 6 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @TheTrang
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var DiTat = Model.Where(x => x.ID_LyDo == 7 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @DiTat
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var Khac = Model.Where(x => x.ID_LyDo == 8 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @Khac
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var XemXet = Model.Where(x => x.ID_KetQuaDV == 3 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @XemXet
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var BMI = Model.Where(x => x.ID_LyDo == 9 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @BMI
-                                                        </td>
-                                                        <td class="text-center">
-                                                            @{
-                                                                var KhongPhuHop = Model.Where(x => x.ID_LyDo == 10 && x.NgayKham == item.NgayKham).Count();
-                                                            }
-                                                            @KhongPhuHop
-                                                        </td>
-                                                       
-                                                    </tr>
-                                                }
-                                           
+                                                <tr>
+
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.NgayKham.Value.ToString("dd/MM/yyyy")
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountKham
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountDat
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountKDat
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountHinhXam
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountThiLuc
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountHA
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountTM
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountTK
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountTT
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountDT
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountKhac
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountXS
+                                                    </td>
+                                                    <td class="text-center">
+
+                                                        @item.CountBMI
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @item.CountVT
+                                                    </td>
+
+                                                </tr>
+
                                             }
 
                                             <tr style="background-color: #4680ff; color: white;">
@@ -245,33 +210,24 @@
                                                 </td>
 
                                                 @{
-                                                    var Count_klh = Model.Count();
-                                                    var Count_klh_d = Model.Where(x=>x.ID_KetQuaDV == 1).Count();
-                                                    var Count_klh_kd = Model.Where(x => x.ID_KetQuaDV == 2).Count();
-                                                    var Count_klh_xx = Model.Where(x => x.ID_KetQuaDV == 3).Count();
+                                                    var tong = ViewBag.tong;
                                                 }
-                                                <td class="text-center">@Count_klh </td>
-                                                <td class="text-center">@Count_klh_d </td>
-                                                <td class="text-center">@Count_klh_kd </td>
-                                                @{
-                                                    var LyDoKhogDat = List_PL.Where(x => x.LoaiLyDo == 0).ToList();
-                                                    var LyDoXemXet = List_PL.Where(x => x.LoaiLyDo == 1).ToList();
-                                                }
-                                                @foreach (var kd in LyDoKhogDat)
-                                                {
-                                                    var count_pl = Model.Where(x => x.ID_LyDo == kd.ID_LyDo).Count();
-                                                    <td class="text-center">
-                                                        @count_pl
-                                                    </td>
-                                                }
-                                                <td class="text-center">@Count_klh_xx </td>
-                                                @foreach (var xx in LyDoXemXet)
-                                                {
-                                                    var count_pl = Model.Where(x => x.ID_LyDo == xx.ID_LyDo).Count();
-                                                    <td class="text-center">
-                                                        @count_pl
-                                                    </td>
-                                                }
+                                                <td class="text-center">@tong.Count </td>
+                                                <td class="text-center">@tong.CountDat </td>
+                                                <td class="text-center">@tong.CountKDat </td>
+                                                <td class="text-center">@tong.CountHinhXam </td>
+                                                <td class="text-center">@tong.CountThiLuc </td>
+                                                <td class="text-center">@tong.CountHA </td>
+                                                <td class="text-center">@tong.CountTM </td>
+                                                <td class="text-center">@tong.CountTK </td>
+                                                <td class="text-center">@tong.CountTT </td>
+                                                <td class="text-center">@tong.CountDT </td>
+                                                <td class="text-center">@tong.CountKhac </td>
+                                                <td class="text-center"> @tong.CountXS </td>
+                                                <td class="text-center">@tong.CountBMI </td>
+                                                <td class="text-center">@tong.CountVT </td>
+                                                
+                                                
                                             </tr>
 
                                         </tbody>

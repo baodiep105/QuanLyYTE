@@ -17,9 +17,9 @@ namespace QuanLyYTe.Controllers
         {
             this._context = _context;
         }
-        public async Task<IActionResult> Index(string search,int page = 1)
+        public async Task<IActionResult> Index(string search, int? tt,int page = 1)
         {
-            var res = await (from a in _context.NhanVien.Where(x=>x.ID_TinhTrangLamViec == 1)
+            var res = await (from a in _context.NhanVien
                              join bp in _context.PhongBan on a.ID_PhongBan equals bp.ID_PhongBan
                              join px in _context.PhanXuong on a.ID_PhanXuong equals px.ID_PhanXuong into ulist1
                              from px in ulist1.DefaultIfEmpty()
@@ -53,6 +53,10 @@ namespace QuanLyYTe.Controllers
             {
                 res = res.Where(x => x.HoTen.ToLower().Contains(search.ToLower()) || x.MaNV.ToLower().Contains(search.ToLower())).ToList();
 
+            }
+            if (tt != null)
+            {
+                res=res.Where(x=>x.ID_TinhTrangLamViec==tt).ToList();
             }
             const int pageSize = 20;
             if (page < 1)

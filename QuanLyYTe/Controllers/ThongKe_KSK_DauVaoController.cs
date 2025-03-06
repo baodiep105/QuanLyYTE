@@ -23,38 +23,57 @@ namespace QuanLyYTe.Controllers
             DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
             DateTime endDay = startDay.AddMonths(1).AddDays(-1);
 
-            var res = await (from a in _context.KSK_DauVao
-                             join kq in _context.KetQuaDauVao on a.ID_KetQuaDV equals kq.ID_KetQuaDV
-                             join gt in _context.GioiTinh on a.ID_GioiTinh equals gt.ID_GioiTinh
-                             join ld in _context.LyDoKhongDat on a.ID_LyDo equals ld.ID_LyDo into ulist1
-                             from ld in ulist1.DefaultIfEmpty()
-                             select new KSK_DauVao
-                             {
-                                 ID_KSK_DV = a.ID_KSK_DV,
-                                 HoVaTen = a.HoVaTen,
-                                 NgaySinh = a.NgaySinh,
-                                 CCCD = a.CCCD,
-                                 ID_GioiTinh = (int)a.ID_GioiTinh,
-                                 TenGioiTinh = gt.TenGioiTinh,
-                                 TDHV = a.TDHV,
-                                 TDCM = a.TDCM,
-                                 NgheNghiep = a.NgheNghiep,
-                                 HoKhau = a.HoKhau,
-                                 ID_KetQuaDV = (int)a.ID_KetQuaDV,
-                                 TenKetQua = kq.TenKetQua,
-                                 ID_LyDo = (int?)a.ID_LyDo ?? default,
-                                 TenLyDo = ld.TenLyDo ?? default,
-                                 NgayKham = a.NgayKham,
-                                 GhiChu = a.GhiChu
-                             }).ToListAsync();
-            if(begind == null && endd == null)
+            var data1 = await (from a in _context.KSK_DauVao
+                              join kq in _context.KetQuaDauVao on a.ID_KetQuaDV equals kq.ID_KetQuaDV
+                              join gt in _context.GioiTinh on a.ID_GioiTinh equals gt.ID_GioiTinh
+                              join ld in _context.LyDoKhongDat on a.ID_LyDo equals ld.ID_LyDo into ulist1
+                              from ld in ulist1.DefaultIfEmpty()
+                              select a).ToListAsync(); // Lấy dữ liệu trước
+            if (begind == null && endd == null)
             {
-                res = res.Where(x => x.NgayKham >= startDay && x.NgayKham <= endDay).ToList();
-            }    
+                data1 = data1.Where(x => x.NgayKham >= startDay && x.NgayKham <= endDay).ToList();
+            }
             else
             {
-                res = res.Where(x => x.NgayKham >= begind && x.NgayKham <= endd).ToList();
-            }    
+                data1 = data1.Where(x => x.NgayKham >= begind && x.NgayKham <= endd).ToList();
+            }
+            var res = data1.GroupBy(a => a.NgayKham)
+                          .Select(g => new ThongKeSKDV
+                          {
+                              NgayKham = g.Key,
+                              CountKham = g.Count(),
+                              CountDat = g.Count(x => x.ID_KetQuaDV == 1),
+                              CountKDat = g.Count(x => x.ID_KetQuaDV == 2),
+                              CountXS = g.Count(x => x.ID_KetQuaDV == 3),
+                              CountHinhXam = g.Count(x => x.ID_LyDo == 1),
+                              CountThiLuc = g.Count(x => x.ID_LyDo == 2),
+                              CountHA = g.Count(x => x.ID_LyDo == 3),
+                              CountTM = g.Count(x => x.ID_LyDo == 4),
+                              CountTK = g.Count(x => x.ID_LyDo == 5),
+                              CountTT = g.Count(x => x.ID_LyDo == 6),
+                              CountDT = g.Count(x => x.ID_LyDo == 7),
+                              CountKhac = g.Count(x => x.ID_LyDo == 8),
+                              CountBMI = g.Count(x => x.ID_LyDo == 9),
+                              CountVT = g.Count(x => x.ID_LyDo == 10),
+                          }).ToList();
+            var resTong = new
+            {
+                Count = data1.Count(),
+                CountDat = data1.Count(x => x.ID_KetQuaDV == 1),
+                CountKDat = data1.Count(x => x.ID_KetQuaDV == 2),
+                CountXS = data1.Count(x => x.ID_KetQuaDV == 3),
+                CountHinhXam = data1.Count(x => x.ID_LyDo == 1),
+                CountThiLuc = data1.Count(x => x.ID_LyDo == 2),
+                CountHA = data1.Count(x => x.ID_LyDo == 3),
+                CountTM = data1.Count(x => x.ID_LyDo == 4),
+                CountTK = data1.Count(x => x.ID_LyDo == 5),
+                CountTT = data1.Count(x => x.ID_LyDo == 6),
+                CountDT = data1.Count(x => x.ID_LyDo == 7),
+                CountKhac = data1.Count(x => x.ID_LyDo == 8),
+                CountBMI = data1.Count(x => x.ID_LyDo == 9),
+                CountVT = data1.Count(x => x.ID_LyDo == 10),
+            };
+            ViewBag.tong = resTong;
             const int pageSize = 10000;
             if (page < 1)
             {
