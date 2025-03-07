@@ -1,6 +1,4 @@
-﻿@model IEnumerable<QuanLyYTe.Models.KSK_BenhNgheNghiep>
-
-
+﻿
 @if (TempData["msgSuccess"] != null)
 {
     @Html.Raw(TempData["msgSuccess"])
@@ -111,23 +109,19 @@
                                                 int itemperpage = (int)pager.PageSize;
                                                 int RowNo = ((pageno - 1) * itemperpage) + 1;
                                             }
-                                            @foreach (var item in List_BP)
+                                            @foreach (var item in ViewBag.tong)
                                             {
-                                                var Count = Model.Where(x => x.ID_PhongBan == item.ID_PhongBan).Count();
-                                                if (Count > 0)
-                                                {
-                                                    <tr>
-                                                        <td class="text-center">
-                                                            @RowNo@{
-                                                                RowNo++;
-                                                            }
-                                                        </td>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        @RowNo@{
+                                                            RowNo++;
+                                                        }
+                                                    </td>
 
-                                                        <td>@item.TenPhongBan</td>
-                                                        <td class="text-center">@Count </td>
-                                                        <td class="text-center"></td>
-                                                    </tr>
-                                                }
+                                                    <td>@item.pb</td>
+                                                    <td class="text-center">@item.count</td>
+
+                                                </tr>
 
                                             }
                                         </tbody>

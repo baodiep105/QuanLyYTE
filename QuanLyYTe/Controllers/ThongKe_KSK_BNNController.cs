@@ -18,40 +18,22 @@ namespace QuanLyYTe.Controllers
         {
             this._context = _context;
         }
-        public async Task<IActionResult> Index( DateTime? begind, DateTime? endd, int page = 1)
+        public async Task<IActionResult> Index( DateTime? begind, DateTime? endd)
         {
             DateTime Now = DateTime.Now;
             DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
             DateTime endDay = startDay.AddMonths(1).AddDays(-1);
 
-            var res = await (from a in _context.KSK_BenhNgheNghiep
+            var res =  (from a in _context.KSK_BenhNgheNghiep
                              join nv in _context.NhanVien on a.ID_NV equals nv.ID_NV
                              join bp in _context.PhongBan on a.ID_PhongBan equals bp.ID_PhongBan
-                             join k in _context.KipLamViec on nv.ID_Kip equals k.ID_Kip into ulist3
-                             from k in ulist3.DefaultIfEmpty()
-                             join vt in _context.ViTriLamViec on nv.ID_ViTri equals vt.ID_ViTri into ulist4
-                             from vt in ulist4.DefaultIfEmpty()
-                             join vtld in _context.ViTriLaoDong on a.ID_ViTriLaoDong equals vtld.ID_ViTriLaoDong into ulist5
-                             from vtld in ulist5.DefaultIfEmpty()
                              select new KSK_BenhNgheNghiep
                              {
-                                 ID_KSK_BNN = a.ID_KSK_BNN,
-                                 ID_NV = (int)a.ID_NV,
-                                 MaNV = nv.MaNV,
-                                 HoTen = nv.HoTen,
-                                 NgaySinh = (DateTime?)nv.NgaySinh ?? default,
                                  ID_PhongBan = (int)a.ID_PhongBan,
                                  TenPhongBan = bp.TenPhongBan,
-                                 TenKip = k.TenKip,
-                                 TenViTri = vt.TenViTri,
-                                 NgayKham = (DateTime?)a.NgayKham ?? default,
-                                 NgayLenDanhSach = (DateTime?)a.NgayLenDanhSach ?? default,
-                                 ID_ViTriLaoDong = (int)a.ID_ViTriLaoDong,
-                                 TenViTriLaoDong = vtld.TenViTriLaoDong,
-                                 GhiChu = a.GhiChu,
-                                 ID_PheDuyet = (int?)a.ID_PheDuyet ?? default
-                             }).ToListAsync();
-
+                                 NgayLenDanhSach=a.NgayLenDanhSach
+                             }).ToList();
+            
             if (begind == null && endd == null)
             {
                 res = res.Where(x => x.NgayLenDanhSach >= startDay && x.NgayLenDanhSach <= endDay).ToList();
@@ -60,19 +42,18 @@ namespace QuanLyYTe.Controllers
             {
                 res = res.Where(x => x.NgayLenDanhSach >= begind && x.NgayLenDanhSach <= endd).ToList();
             }
-            const int pageSize = 10000;
-            if (page < 1)
+            List<object> data = new List<object>();
+            _context.PhongBan.ToList().ForEach(x =>
             {
-                page = 1;
-            }
-            int resCount = res.Count;
-            var pager = new Pager(resCount, page, pageSize);
-            int recSkip = (page - 1) * pageSize;
-            var data = res.Skip(recSkip).Take(pager.PageSize).ToList();
-            this.ViewBag.Pager = pager;
-            var bp_nm = _context.PhongBan.ToList();
-            ViewData["PhongBan"] = bp_nm;
-            return View(data);
+                int count = res.Where(y => y.ID_PhongBan == x.ID_PhongBan).Count();
+                data.Add( new
+                    {
+                        pb = x.TenPhongBan,
+                        count = count
+                    });
+            });
+            ViewBag.tong = data;
+            return View();
 
         }
         public async Task<IActionResult> ExportToExcel(DateTime? begind, DateTime? endd, int? IDPhongBan)

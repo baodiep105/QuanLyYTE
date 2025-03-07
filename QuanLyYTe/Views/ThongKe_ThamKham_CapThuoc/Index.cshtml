@@ -23,7 +23,7 @@
 
 }
 @{
-    var List_BP = ViewData["PhongBan"] as List<QuanLyYTe.Models.PhongBan>;
+    //var List_BP = ViewData["PhongBan"] as List<QuanLyYTe.Models.PhongBan>;
     var List_NB = ViewData["NhomBenh"] as List<QuanLyYTe.Models.NhomBenh>;
 }
 <div class="wrapper">
@@ -118,11 +118,9 @@
                                                 int itemperpage = (int)pager.PageSize;
                                                 int RowNo = ((pageno - 1) * itemperpage) + 1;
                                             }
-                                            @foreach(var item in List_BP)
+                                            @foreach (var item in ViewBag.data)
                                             {
-                                                var Count = Model.Where(x => x.ID_PhongBan == item.ID_PhongBan).Count();
-                                                if (Count > 0)
-                                                {
+                                                
                                                     <tr>
                                                         <td class="text-center">
                                                             @RowNo@{
@@ -130,17 +128,22 @@
                                                             }
                                                         </td>
 
-                                                        <td>@item.TenPhongBan</td>
-                                                        <td class="text-center">@Count </td>
-                                                        @foreach (var pl in List_NB)
-                                                        {
-                                                            var count_pl = Model.Where(x => x.ID_NhomBenh == pl.ID_NhomBenh && x.ID_PhongBan == item.ID_PhongBan).Count();
-                                                            <td class="text-center">
-                                                                @count_pl
-                                                            </td>
-                                                        }
+                                                    <td>@item.pb</td>
+                                                    <td class="text-center"> @item.coutTong</td>
+                                                    <td class="text-center"> @item.countHH</td>
+                                                    <td class="text-center"> @item.countTH</td>
+                                                    <td class="text-center"> @item.countTuanHoan</td>
+                                                    <td class="text-center"> @item.countTMH</td>
+                                                    <td class="text-center"> @item.countMat</td>
+                                                    <td class="text-center"> @item.countDL</td>
+                                                    <td class="text-center"> @item.countKhop</td>
+                                                    <td class="text-center"> @item.countDU</td>
+                                                    <td class="text-center"> @item.countPM</td>
+                                                    <td class="text-center"> @item.countBN</td>
+                                                    <td class="text-center"> @item.countSot</td>
+                                                    <td class="text-center"> @item.countKhac</td>
+                                                       
                                                     </tr>
-                                                }
 
                                             }
                                             <tr style="background-color: #4680ff; color: white;">
@@ -148,17 +151,19 @@
                                                     Tổng số Khu liên hợp
                                                 </td>
 
-                                                @{
-                                                    var Count_klh = Model.Count();
-                                                }
-                                                <td class="text-center">@Count_klh </td>
-                                                @foreach (var pl in List_NB)
-                                                {
-                                                    var count_pl = Model.Where(x => x.ID_NhomBenh == pl.ID_NhomBenh).Count();
-                                                    <td class="text-center">
-                                                        @count_pl
-                                                    </td>
-                                                }
+                                                <td class="text-center">@ViewBag.data1.coutTong </td>
+                                                <td class="text-center"> @ViewBag.data1.countHH</td>
+                                                <td class="text-center"> @ViewBag.data1.countTH</td>
+                                                <td class="text-center"> @ViewBag.data1.countTuanHoan</td>
+                                                <td class="text-center"> @ViewBag.data1.countTMH</td>
+                                                <td class="text-center"> @ViewBag.data1.countMat</td>
+                                                <td class="text-center"> @ViewBag.data1.countDL</td>
+                                                <td class="text-center"> @ViewBag.data1.countKhop</td>
+                                                <td class="text-center"> @ViewBag.data1.countDU</td>
+                                                <td class="text-center"> @ViewBag.data1.countPM</td>
+                                                <td class="text-center"> @ViewBag.data1.countBN</td>
+                                                <td class="text-center"> @ViewBag.data1.countSot</td>
+                                                <td class="text-center"> @ViewBag.data1.countKhac</td>
 
                                             </tr>
                                         </tbody>
