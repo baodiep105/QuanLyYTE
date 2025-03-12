@@ -188,7 +188,7 @@ namespace QuanLyYTe.Controllers
                             }
 
                             string ViTriLaoDong = serviceDetails.Rows[i][3].ToString().Trim();
-                            var check_vt = _context.ViTriLaoDong.Where(x => x.TenViTriLaoDong.Trim().Contains(ViTriLaoDong.Trim())).FirstOrDefault();
+                            var check_vt = _context.ViTriLaoDong.Where(x => x.TenViTriLaoDong.Trim() ==ViTriLaoDong.Trim()).FirstOrDefault();
                             if (check_vt == null)
                             {
                                 var Delete_BNN = _context.KSK_BenhNgheNghiep.Where(x => x.ID_TK == ID_ky).ToList();

@@ -35,9 +35,8 @@
                                     <div class="col-md-3">
                                         <input type="text" id="txtsearch" name="" placeholder="Tìm kiếm" class="form-control" value="@ViewBag.search">
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <select id="tt" class="form-control">
-                                            <option >chon tình trạng</option>
                                             <option value="1">Đang làm việc</option>
                                             <option value="0">Đã nghỉ việc</option>
                                         </select>
@@ -45,7 +44,10 @@
                                     <div class="col-md-2" style="text-align:left;">
                                         <button class="btn btn-primary" id="btn-search" style="border-radius: 10px;"><i class="bi bi-search"></i> Tìm kiếm</button>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2" style="text-align:left;">
+                                        <button class="btn btn-primary" id="btn-export" style="border-radius: 10px;"><i class="bi bi-search"></i> Export</button>
+                                    </div>
+                                    <div class="col-md-3">
                                         <a href="@Url.Action("Sync","Employee")"><button id="btn-Import" style="border-radius: 10px;" type="button" class="btn btn-primary"> <i class="feather icon-refresh-cw"></i> Cập nhật</button></a>
                                        
                                     </div>
@@ -195,5 +197,10 @@
         var search = $('#txtsearch').val();
         var tt = $('#tt').val();
         window.location.href = '@Url.Action("Index", "NhanVien")?search=' + search+'&tt='+tt;
+    });
+    $("#btn-export").on('click', function () {
+        
+        var tt = $('#tt').val();
+        window.location.href = '@Url.Action("export", "NhanVien")?tt='+tt;
     });
 </script>

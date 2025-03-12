@@ -13,30 +13,25 @@ namespace QuanLyYTe.Controllers
     {
         private readonly DataContext _context;
 
-        public ThongKe_KSK_DauVaoController(DataContext _context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ThongKe_KSK_DauVaoController(DataContext _context, IWebHostEnvironment webHostEnvironment)
         {
             this._context = _context;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<IActionResult> Index(DateTime? begind, DateTime? endd, int page = 1)
         {
             DateTime Now = DateTime.Now;
-            DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
-            DateTime endDay = startDay.AddMonths(1).AddDays(-1);
+            begind = (begind == null && endd == null) ? new DateTime(Now.Year, Now.Month, 1) : begind;
+            endd = (begind == null && endd == null) ? begind?.AddMonths(1).AddDays(-1) : endd;
 
             var data1 = await (from a in _context.KSK_DauVao
                               join kq in _context.KetQuaDauVao on a.ID_KetQuaDV equals kq.ID_KetQuaDV
                               join gt in _context.GioiTinh on a.ID_GioiTinh equals gt.ID_GioiTinh
                               join ld in _context.LyDoKhongDat on a.ID_LyDo equals ld.ID_LyDo into ulist1
                               from ld in ulist1.DefaultIfEmpty()
+                              where a.NgayKham>=begind && a.NgayKham<=endd
                               select a).ToListAsync(); // Lấy dữ liệu trước
-            if (begind == null && endd == null)
-            {
-                data1 = data1.Where(x => x.NgayKham >= startDay && x.NgayKham <= endDay).ToList();
-            }
-            else
-            {
-                data1 = data1.Where(x => x.NgayKham >= begind && x.NgayKham <= endd).ToList();
-            }
             var res = data1.GroupBy(a => a.NgayKham)
                           .Select(g => new ThongKeSKDV
                           {
@@ -95,165 +90,114 @@ namespace QuanLyYTe.Controllers
    
             try
             {
+                string path = "Form files/thong_ke_KDV.xlsx";
+                HttpContext.Response.ContentType = "application/xlsx";
+                string filePath = Path.Combine(_webHostEnvironment.ContentRootPath, path);
 
-                string fileNamemau = AppDomain.CurrentDomain.DynamicDirectory + @"App_Data\Thong ke KSK tuyen dung.xlsx";
-                string fileNamemaunew = AppDomain.CurrentDomain.DynamicDirectory + @"App_Data\Thong ke KSK tuyen dung_Temp.xlsx";
-                XLWorkbook Workbook = new XLWorkbook(fileNamemau);
-                IXLWorksheet Worksheet = Workbook.Worksheet("TD");
-                var Data = _context.KSK_DauVao.Where(x => x.NgayKham >= begind && x.NgayKham <= endd).ToList();
-                int row = 5, stt = 0, icol = 1;
-                if (Data.Count > 0)
+                if (!System.IO.File.Exists(filePath))
                 {
-                    string NgayKham = "";
-                    foreach (var item in Data)
+                    return null; // Xử lý lỗi nếu file không tồn tại
+                }
+
+                DateTime Now = DateTime.Now;
+                begind = (begind == null && endd == null) ? new DateTime(Now.Year, Now.Month, 1) : begind;
+                endd = (begind == null && endd == null) ? begind?.AddMonths(1).AddDays(-1) : endd;
+
+                var data1 = await (from a in _context.KSK_DauVao
+                                   join kq in _context.KetQuaDauVao on a.ID_KetQuaDV equals kq.ID_KetQuaDV
+                                   join gt in _context.GioiTinh on a.ID_GioiTinh equals gt.ID_GioiTinh
+                                   join ld in _context.LyDoKhongDat on a.ID_LyDo equals ld.ID_LyDo into ulist1
+                                   from ld in ulist1.DefaultIfEmpty()
+                                   where a.NgayKham >= begind && a.NgayKham <= endd
+                                   select a).ToListAsync(); // Lấy dữ liệu trước
+                    var res = data1.GroupBy(a => a.NgayKham)
+                                  .Select(g => new ThongKeSKDV
+                                  {
+                                      NgayKham = g.Key,
+                                      CountKham = g.Count(),
+                                      CountDat = g.Count(x => x.ID_KetQuaDV == 1),
+                                      CountKDat = g.Count(x => x.ID_KetQuaDV == 2),
+                                      CountXS = g.Count(x => x.ID_KetQuaDV == 3),
+                                      CountHinhXam = g.Count(x => x.ID_LyDo == 1),
+                                      CountThiLuc = g.Count(x => x.ID_LyDo == 2),
+                                      CountHA = g.Count(x => x.ID_LyDo == 3),
+                                      CountTM = g.Count(x => x.ID_LyDo == 4),
+                                      CountTK = g.Count(x => x.ID_LyDo == 5),
+                                      CountTT = g.Count(x => x.ID_LyDo == 6),
+                                      CountDT = g.Count(x => x.ID_LyDo == 7),
+                                      CountKhac = g.Count(x => x.ID_LyDo == 8),
+                                      CountBMI = g.Count(x => x.ID_LyDo == 9),
+                                      CountVT = g.Count(x => x.ID_LyDo == 10),
+                                  }).ToList();
+                var resTong = new
+                {
+                    Count = data1.Count(),
+                    CountDat = data1.Count(x => x.ID_KetQuaDV == 1),
+                    CountKDat = data1.Count(x => x.ID_KetQuaDV == 2),
+                    CountXS = data1.Count(x => x.ID_KetQuaDV == 3),
+                    CountHinhXam = data1.Count(x => x.ID_LyDo == 1),
+                    CountThiLuc = data1.Count(x => x.ID_LyDo == 2),
+                    CountHA = data1.Count(x => x.ID_LyDo == 3),
+                    CountTM = data1.Count(x => x.ID_LyDo == 4),
+                    CountTK = data1.Count(x => x.ID_LyDo == 5),
+                    CountTT = data1.Count(x => x.ID_LyDo == 6),
+                    CountDT = data1.Count(x => x.ID_LyDo == 7),
+                    CountKhac = data1.Count(x => x.ID_LyDo == 8),
+                    CountBMI = data1.Count(x => x.ID_LyDo == 9),
+                    CountVT = data1.Count(x => x.ID_LyDo == 10),
+                };
+                
+                
+                    using (var workbook = new XLWorkbook(filePath))
                     {
-                        string Day = item.NgayKham.ToString();
-                        if (NgayKham != Day)
-                        {
-                            NgayKham = item.NgayKham.ToString();
-
-                            row++; stt++; icol = 1;
-
-                            Worksheet.Cell(row, icol).Value = stt;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-
-                            icol++; 
-                            Worksheet.Cell(row, icol).Value = item.NgayKham;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.DateFormat.Format = "dd-MM-yyyy";
-
-
-                            icol++;
-                            var SoLuongKham = _context.KSK_DauVao.Where(x => x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = SoLuongKham;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-
-
-                            icol++;
-                            var SoLuongDat = _context.KSK_DauVao.Where(x => x.ID_KetQuaDV == 1 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = SoLuongDat;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var SoLuongKhongDat = _context.KSK_DauVao.Where(x => x.ID_KetQuaDV == 2 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = SoLuongKhongDat;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var HinhXam = _context.KSK_DauVao.Where(x => x.ID_LyDo == 1 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = HinhXam;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-
-                            icol++;
-                            var ThiLuc = _context.KSK_DauVao.Where(x => x.ID_LyDo == 2 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = ThiLuc;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var BenhLy = _context.KSK_DauVao.Where(x => x.ID_LyDo == 3 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = BenhLy;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-
-                            icol++;
-                            var TimMach = _context.KSK_DauVao.Where(x => x.ID_LyDo == 4 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = TimMach;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var ThanKinh = _context.KSK_DauVao.Where(x => x.ID_LyDo == 5 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = ThanKinh;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var TheTrang = _context.KSK_DauVao.Where(x => x.ID_LyDo == 6 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = TheTrang;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var DiTat = _context.KSK_DauVao.Where(x => x.ID_LyDo == 7 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = DiTat;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-   
-                            icol++;
-                            var Khac = _context.KSK_DauVao.Where(x => x.ID_LyDo == 8 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = Khac;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-     
-                            icol++;
-                            var XemXet = _context.KSK_DauVao.Where(x => x.ID_KetQuaDV == 3 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = XemXet;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-
-
-                            icol++;
-                            var BMI = _context.KSK_DauVao.Where(x => x.ID_LyDo == 9 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = BMI;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                            icol++;
-                            var KhongPhuHop = _context.KSK_DauVao.Where(x => x.ID_LyDo == 10 && x.NgayKham == item.NgayKham).Count();
-                            Worksheet.Cell(row, icol).Value = KhongPhuHop;
-                            Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row, icol).Style.Alignment.WrapText = true;
-
-                        }    
-
-
+                        var worksheet = workbook.Worksheet(1);
+                    for (var i = 0; i < res.Count; i++)
+                    {
+                        worksheet.Cell(i + 6, 4).Value = i + 1;
+                        worksheet.Cell(i + 6, 5).Value = res[i].NgayKham;
+                        worksheet.Cell(i + 6, 6).Value = res[i].CountKham;
+                        worksheet.Cell(i + 6, 7).Value = res[i].CountDat;
+                        worksheet.Cell(i + 6, 8).Value = res[i].CountKDat;
+                        worksheet.Cell(i + 6, 9).Value = res[i].CountXS;
+                        worksheet.Cell(i + 6, 10).Value = res[i].CountHinhXam;
+                        worksheet.Cell(i + 6, 11).Value = res[i].CountThiLuc;
+                        worksheet.Cell(i + 6, 12).Value = res[i].CountHA;
+                        worksheet.Cell(i + 6, 13).Value = res[i].CountTM;
+                        worksheet.Cell(i + 6, 14).Value = res[i].CountTK;
+                        worksheet.Cell(i + 6, 15).Value = res[i].CountTT;
+                        worksheet.Cell(i + 6, 16).Value = res[i].CountDT;
+                        worksheet.Cell(i + 6, 17).Value = res[i].CountKhac;
+                        worksheet.Cell(i + 6, 18).Value = res[i].CountBMI;
+                        worksheet.Cell(i + 6, 19).Value = res[i].CountVT;
                     }
-
-                    Worksheet.Range("A6:Q" + (row)).Style.Font.SetFontName("Times New Roman");
-                    Worksheet.Range("A6:Q" + (row)).Style.Font.SetFontSize(13);
-                    Worksheet.Range("A6:Q" + (row)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                    Worksheet.Range("A6:Q" + (row)).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-
-
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "Thống kế KSK Tuyển dụng - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                    var a= worksheet.Range($"D{res.Count + 6}:S{res.Count + 6}").Style.Fill.BackgroundColor = XLColor.FromArgb(70,128,255);
+                    worksheet.Range($"D{res.Count + 6}:S{res.Count + 6}").Style.Font.FontColor = XLColor.White;
+                    var range = worksheet.Range($"D{res.Count + 6}:E{res.Count + 6}");
+                    range.Merge();
+                    range.Value = "Tổng số Khu liên hợp";
+                    worksheet.Cell(res.Count + 6, 6).Value = resTong.Count;
+                    worksheet.Cell(res.Count + 6, 7).Value = resTong.CountDat;
+                    worksheet.Cell(res.Count + 6, 8).Value = resTong.CountKDat;
+                    worksheet.Cell(res.Count + 6, 9).Value = resTong.CountXS;
+                    worksheet.Cell(res.Count + 6, 10).Value = resTong.CountHinhXam;
+                    worksheet.Cell(res.Count + 6, 11).Value = resTong.CountThiLuc;
+                    worksheet.Cell(res.Count + 6, 12).Value = resTong.CountHA;
+                    worksheet.Cell(res.Count + 6, 13).Value = resTong.CountTM;
+                    worksheet.Cell(res.Count + 6, 14).Value = resTong.CountTK;
+                    worksheet.Cell(res.Count + 6, 15).Value = resTong.CountTT;
+                    worksheet.Cell(res.Count + 6, 16).Value = resTong.CountDT;
+                    worksheet.Cell(res.Count + 6, 17).Value = resTong.CountKhac;
+                    worksheet.Cell(res.Count + 6, 18).Value = resTong.CountBMI;
+                    worksheet.Cell(res.Count + 6, 19).Value = resTong.CountVT;
+                    // Lưu lại file Excel
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", path);
+                    }
                 }
-                else
-                {
-
-
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "Thống kế KSK Tuyển dụng - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-                }
+                
             }
             catch (Exception ex)
             {

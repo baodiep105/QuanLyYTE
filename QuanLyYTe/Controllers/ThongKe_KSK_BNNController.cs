@@ -14,34 +14,29 @@ namespace QuanLyYTe.Controllers
     {
         private readonly DataContext _context;
 
-        public ThongKe_KSK_BNNController(DataContext _context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ThongKe_KSK_BNNController(DataContext _context, IWebHostEnvironment webHostEnvironment)
         {
             this._context = _context;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<IActionResult> Index( DateTime? begind, DateTime? endd)
         {
             DateTime Now = DateTime.Now;
-            DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
-            DateTime endDay = startDay.AddMonths(1).AddDays(-1);
+            begind = (begind == null && endd == null) ? new DateTime(Now.Year, Now.Month, 1) : begind;
+            endd = (begind == null && endd == null) ? begind?.AddMonths(1).AddDays(-1) : endd;
 
             var res =  (from a in _context.KSK_BenhNgheNghiep
                              join nv in _context.NhanVien on a.ID_NV equals nv.ID_NV
                              join bp in _context.PhongBan on a.ID_PhongBan equals bp.ID_PhongBan
-                             select new KSK_BenhNgheNghiep
+                             where a.NgayKham >= begind && a.NgayKham <= endd
+                        select new KSK_BenhNgheNghiep
                              {
                                  ID_PhongBan = (int)a.ID_PhongBan,
                                  TenPhongBan = bp.TenPhongBan,
-                                 NgayLenDanhSach=a.NgayLenDanhSach
-                             }).ToList();
+                                NgayKham = a.NgayKham
+                        }).ToList();
             
-            if (begind == null && endd == null)
-            {
-                res = res.Where(x => x.NgayLenDanhSach >= startDay && x.NgayLenDanhSach <= endDay).ToList();
-            }
-            else
-            {
-                res = res.Where(x => x.NgayLenDanhSach >= begind && x.NgayLenDanhSach <= endd).ToList();
-            }
             List<object> data = new List<object>();
             _context.PhongBan.ToList().ForEach(x =>
             {
@@ -62,75 +57,61 @@ namespace QuanLyYTe.Controllers
             try
             {
 
-                string fileNamemau = AppDomain.CurrentDomain.DynamicDirectory + @"App_Data\Thong ke.xlsx";
-                string fileNamemaunew = AppDomain.CurrentDomain.DynamicDirectory + @"App_Data\Thong ke_Temp.xlsx";
-                XLWorkbook Workbook = new XLWorkbook(fileNamemau);
-                IXLWorksheet Worksheet = Workbook.Worksheet("TD");
-                var Data = _context.PhongBan.ToList();
-                int row = 5, stt = 0, icol = 1, icol_ = 1, row_ = 5;
+                string path = "Form files/Thong_ke_BNN.xlsx";
+                HttpContext.Response.ContentType = "application/xlsx";
+                string filePath = Path.Combine(_webHostEnvironment.ContentRootPath, path);
 
-                DateTime Begin = (DateTime)begind;
-                string TuNgay = Begin.ToString("MM");
-                DateTime End = (DateTime)endd;
-                string DenNgay = End.ToString("MM");
-                int SoThang =  Convert.ToInt32(DenNgay) - Convert.ToInt32(TuNgay);
-                if (Data.Count > 0)
+                if (!System.IO.File.Exists(filePath))
                 {
-
-                 
-
-                    foreach (var item in Data)
-                    {
-                        row++; stt++; icol = 1; icol_ = 1;
-
-                        Worksheet.Cell(row, icol).Value = stt;
-                        Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                        Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-
-                        icol++;
-                        Worksheet.Cell(row, icol).Value = item.TenPhongBan;
-                        Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-
-                        for (int i = 0; i <= SoThang; i++)
-                        {
-                            DateTime Now = Begin.AddMonths(i);
-                            DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
-                            DateTime endDay = startDay.AddMonths(1).AddDays(-1);
-
-                            icol_++;
-                            Worksheet.Cell(row_, (icol_ + 1)).Value = startDay.ToString("MM/yyyy");
-                            Worksheet.Cell(row_, (icol_ + 1)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                            Worksheet.Cell(row_, (icol_ + 1)).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row_, (icol_ + 1)).Style.Alignment.WrapText = true;
-
-
-                            var Count = _context.KSK_BenhNgheNghiep.Where(x => x.ID_PhongBan == item.ID_PhongBan && x.NgayKham >= startDay && x.NgayKham <= endDay).Count();
-                            Worksheet.Cell(row, (icol_ + 1)).Value = Count;
-                            Worksheet.Cell(row, (icol_ + 1)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, (icol_ + 1)).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        }
-                    }
-
-                    Worksheet.Range("A6:N" + (row)).Style.Font.SetFontName("Times New Roman");
-                    Worksheet.Range("A6:N" + (row)).Style.Font.SetFontSize(13);
-                    Worksheet.Range("A6:N" + (row)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                    Worksheet.Range("A6:N" + (row)).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
-
-
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "Thống kê KSK BNN - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                    return null; // Xử lý lỗi nếu file không tồn tại
                 }
-                else
+
+                DateTime Now = DateTime.Now;
+                begind = (begind == null && endd == null) ? new DateTime(Now.Year, Now.Month, 1) : begind;
+                endd = (begind == null && endd == null) ? begind?.AddMonths(1).AddDays(-1) : endd;
+                var res = await (from a in _context.PhongBan
+                                 join b in _context.KSK_BenhNgheNghiep on a.ID_PhongBan equals b.ID_PhongBan into list
+                                 from b in list.DefaultIfEmpty()
+                                 select new
+                                 {
+                                     pb=a.TenPhongBan,
+                                     ngay = b.NgayKham
+                                 }).ToListAsync();
+                var data = res.GroupBy(x => x.pb).Select(y => new
                 {
+                    pb = y.Key,
+                    tong =  y.Count(x => x.ngay >= begind && x.ngay <= endd)
+                }).ToList();
+                var data1 = new
+                {
+                    tong = res.Count(x => x.ngay >= begind && x.ngay <= endd) 
+                };
+                using (var workbook = new XLWorkbook(filePath))
+                {
+                    var worksheet = workbook.Worksheet(1);
+                    for (int i = 0; i < data.Count(); i++)
+                    {
+                        worksheet.Cell(i + 5, 9).Value = i + 1;
+                        worksheet.Cell(i + 5, 10).Value = data[i].pb;
+                        worksheet.Cell(i + 5, 11).Value = data[i].tong;
+                        
+                    }
+                    var range = worksheet.Range($"I{data.Count() + 5}:J{data.Count() + 5}");
+                    range.Merge();
+                    range.Value = "Tổng số Khu liên hợp";
+                    worksheet.Range($"I{data.Count + 5}:K{data.Count + 5}").Style.Fill.BackgroundColor = XLColor.FromArgb(70, 128, 255);
+                    worksheet.Range($"I{data.Count + 5}:K{data.Count + 5}").Style.Font.FontColor = XLColor.White;
 
+                    worksheet.Cell(data.Count() + 5, 11).Value = data1.tong;
+                    
 
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "Thống kê KSK BNN - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                    // Lưu lại file Excel
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", path);
+                    }
                 }
             }
             catch (Exception ex)

@@ -130,7 +130,7 @@ namespace QuanLyYTe.Controllers
             using (var workbook = new XLWorkbook(filePath))
             {
                 var worksheet = workbook.Worksheet(2);
-                for (var i = 0; i < vt.Count; i++)
+                for (var i = 0; i < vt.Count; i++)  
                 {
                     worksheet.Cell(i + 2, 6).Value = vt[i].TenViTri;
                 }

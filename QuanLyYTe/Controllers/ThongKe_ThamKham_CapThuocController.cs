@@ -14,15 +14,18 @@ namespace QuanLyYTe.Controllers
     {
         private readonly DataContext _context;
 
-        public ThongKe_ThamKham_CapThuocController(DataContext _context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ThongKe_ThamKham_CapThuocController(DataContext _context, IWebHostEnvironment webHostEnvironment)
         {
             this._context = _context;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<IActionResult> Index(DateTime? begind, DateTime? endd, int page = 1)
         {
             DateTime Now = DateTime.Now;
-            DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
-            DateTime endDay = startDay.AddMonths(1).AddDays(-1);
+           begind = (begind == null && endd == null)? new DateTime(Now.Year, Now.Month, 1) : begind;
+           endd = (begind == null && endd == null)? begind?.AddMonths(1).AddDays(-1) : endd;
+            
 
             var res1 = await (from a in _context.PhongBan
                               join cpt in _context.CapPhatThuoc on a.ID_PhongBan equals cpt.ID_PhongBan into list1
@@ -37,64 +40,40 @@ namespace QuanLyYTe.Controllers
                                   NgayCapThuoc = (DateTime?)cpt.NgayCapThuoc ?? default,
                                  ID_NhomBenh = cpt.ID_NhomBenh ?? default,
                               }).ToListAsync();
-                             /* )
-            var res = await (from a in _context.CapPhatThuoc
-                             join nv in _context.NhanVien on a.ID_NV equals nv.ID_NV into ulist1
-                             from nv in ulist1.DefaultIfEmpty()
-                             join pb in _context.PhongBan on a.ID_PhongBan equals pb.ID_PhongBan into ulist2
-                             from pb in ulist2.DefaultIfEmpty()
-                             join b in _context.NhomBenh on a.ID_NhomBenh equals b.ID_NhomBenh into ulist3
-                             from b in ulist3.DefaultIfEmpty()
-                             select new CapPhatThuoc
-                             {
-                                 ID_CapThuoc = a.ID_CapThuoc,
-                                 ID_PhongBan = (int?)a.ID_PhongBan ?? default,
-                                 TenPhongBan = pb.TenPhongBan,
-                                 NgayCapThuoc = (DateTime?)a.NgayCapThuoc ?? default
-                                 ID_NhomBenh = (int?)a.ID_NhomBenh ?? default,
-                             }).ToListAsync();*/
-
-            if (begind == null && endd == null)
-            {
-                res1 = res1.Where(x => x.NgayCapThuoc >= startDay && x.NgayCapThuoc <= endDay).ToList();
-            }
-            else
-            {
-                res1 = res1.Where(x => x.NgayCapThuoc >= begind && x.NgayCapThuoc <= endd).ToList();
-            }
+                        
             var data = res1.GroupBy(a => a.TenPhongBan)
                           .Select(g => new 
                           {
                               pb = g.Key,
-                              coutTong = g.Count(X => X.ID_CapThuoc!=null),
-                              countHH = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 1),
-                              countTH = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 2),
-                              countTuanHoan = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 3),
-                              countTMH = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 4),
-                              countMat = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 5),
-                              countDL = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 6),
-                              countKhop = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 7),
-                              countDU = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 8),
-                              countPM = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 9),
-                              countBN = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 10),
-                              countSot = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 11),
-                              countKhac = g.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 12)
+                              coutTong =  g.Count(X => X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countHH =g.Count(X =>  X.ID_NhomBenh ==1 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countTH = g.Count(X =>  X.ID_NhomBenh ==2 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countTuanHoan = g.Count(X => X.ID_NhomBenh ==3 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countTMH =  g.Count(X =>  X.ID_NhomBenh ==4 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countMat = g.Count(X =>  X.ID_NhomBenh ==5 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countDL = g.Count(X =>  X.ID_NhomBenh == 6 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countKhop =  g.Count(X =>  X.ID_NhomBenh ==7 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countDU =  g.Count(X =>  X.ID_NhomBenh ==8 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countPM =   g.Count(X =>  X.ID_NhomBenh ==9 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countBN =   g.Count(X => X.ID_NhomBenh ==10 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countSot =   g.Count(X => X.ID_NhomBenh ==11 && X.NgayCapThuoc>=begind&&X.NgayCapThuoc<=endd),
+                              countKhac =  g.Count(X => X.ID_NhomBenh == 12&& X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd)
                           }).ToList();
             ViewBag.data1 = new
             {
-                coutTong = res1.Count(X => X.ID_CapThuoc != null),
-                countHH = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 1),
-                countTH = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 2),
-                countTuanHoan = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 3),
-                countTMH = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 4),
-                countMat = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 5),
-                countDL = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 6),
-                countKhop = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 7),
-                countDU = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 8),
-                countPM = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 9),
-                countBN = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 10),
-                countSot = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 11),
-                countKhac = res1.Count(X => X.ID_CapThuoc != null && X.ID_NhomBenh == 12)
+                coutTong =   res1.Count(X => X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countHH = res1.Count(X => X.ID_NhomBenh == 1 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countTH =  res1.Count(X => X.ID_NhomBenh == 2 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countTuanHoan =   res1.Count(X => X.ID_NhomBenh == 3 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countTMH =  res1.Count(X => X.ID_NhomBenh == 4 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countMat =   res1.Count(X => X.ID_NhomBenh == 5 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countDL =   res1.Count(X => X.ID_NhomBenh == 6 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countKhop =  res1.Count(X => X.ID_NhomBenh == 7 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countDU =  res1.Count(X => X.ID_NhomBenh == 8 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countPM =   res1.Count(X => X.ID_NhomBenh == 9 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countBN =   res1.Count(X => X.ID_NhomBenh == 10 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countSot =  res1.Count(X => X.ID_NhomBenh == 11 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                countKhac =   res1.Count(X => X.ID_NhomBenh == 12 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd)
             };
             
             ViewBag.data=data;
@@ -109,76 +88,119 @@ namespace QuanLyYTe.Controllers
             try
             {
 
-                string fileNamemau = AppDomain.CurrentDomain.DynamicDirectory + @"App_Data\Thong ke.xlsx";
-                string fileNamemaunew = AppDomain.CurrentDomain.DynamicDirectory + @"App_Data\Thong ke_Temp.xlsx";
-                XLWorkbook Workbook = new XLWorkbook(fileNamemau);
-                IXLWorksheet Worksheet = Workbook.Worksheet("TD");
-                var Data = _context.PhongBan.ToList();
-                int row = 5, stt = 0, icol = 1, icol_ = 1, row_ = 5;
+                string path = "Form files/thong_ke_CPT.xlsx";
+                HttpContext.Response.ContentType = "application/xlsx";
+                string filePath = Path.Combine(_webHostEnvironment.ContentRootPath, path);
 
-                DateTime Begin = (DateTime)begind;
-                string TuNgay = Begin.ToString("MM");
-                DateTime End = (DateTime)endd;
-                string DenNgay = End.ToString("MM");
-                int SoThang = Convert.ToInt32(DenNgay) - Convert.ToInt32(TuNgay);
-                if (Data.Count > 0)
+                if (!System.IO.File.Exists(filePath))
                 {
+                    return null; // Xử lý lỗi nếu file không tồn tại
+                }
 
+                DateTime Now = DateTime.Now;
+                begind = (begind == null && endd == null) ? new DateTime(Now.Year, Now.Month, 1) : begind;
+                endd = (begind == null && endd == null) ? begind?.AddMonths(1).AddDays(-1) : endd;
+                var res1 = await (from a in _context.PhongBan
+                                  join cpt in _context.CapPhatThuoc on a.ID_PhongBan equals cpt.ID_PhongBan into list1
+                                  from cpt in list1.DefaultIfEmpty()
+                                  join nb in _context.NhomBenh on cpt.ID_NhomBenh equals nb.ID_NhomBenh into list2
+                                  from nb in list2.DefaultIfEmpty()
+                                  select new CapPhatThuoc
+                                  {
+                                      ID_CapThuoc = cpt.ID_CapThuoc,
+                                      ID_PhongBan = (int?)a.ID_PhongBan ?? default,
+                                      TenPhongBan = a.TenPhongBan,
+                                      NgayCapThuoc = (DateTime?)cpt.NgayCapThuoc ?? default,
+                                      ID_NhomBenh = cpt.ID_NhomBenh ?? default,
+                                  }).ToListAsync();
 
-
-                    foreach (var item in Data)
+                var data = res1.GroupBy(a => a.TenPhongBan)
+                              .Select(g => new
+                              {
+                                  pb = g.Key,
+                                  coutTong =  g.Count(X => X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countHH =  g.Count(X => X.ID_NhomBenh == 1 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countTH =  g.Count(X => X.ID_NhomBenh == 2 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countTuanHoan =  g.Count(X => X.ID_NhomBenh == 3 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countTMH =  g.Count(X => X.ID_NhomBenh == 4 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countMat =  g.Count(X => X.ID_NhomBenh == 5 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countDL =   g.Count(X => X.ID_NhomBenh == 6 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countKhop =  g.Count(X => X.ID_NhomBenh == 7 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countDU =   g.Count(X => X.ID_NhomBenh == 8 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countPM =  g.Count(X => X.ID_NhomBenh == 9 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countBN =   g.Count(X => X.ID_NhomBenh == 10 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countSot =   g.Count(X => X.ID_NhomBenh == 11 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                                  countKhac =   g.Count(X => X.ID_NhomBenh == 12 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd)
+                              }).ToList();
+                var data1 = new
+                {
+                    coutTong =   res1.Count(X => X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countHH =   res1.Count(X => X.ID_NhomBenh == 1 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countTH =   res1.Count(X => X.ID_NhomBenh == 2 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countTuanHoan =  res1.Count(X => X.ID_NhomBenh == 3 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countTMH =   res1.Count(X => X.ID_NhomBenh == 4 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countMat =   res1.Count(X => X.ID_NhomBenh == 5 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countDL =  res1.Count(X => X.ID_NhomBenh == 6 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countKhop =   res1.Count(X => X.ID_NhomBenh == 7 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countDU =   res1.Count(X => X.ID_NhomBenh == 8 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countPM =   res1.Count(X => X.ID_NhomBenh == 9 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countBN =   res1.Count(X => X.ID_NhomBenh == 10 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countSot =   res1.Count(X => X.ID_NhomBenh == 11 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd),
+                    countKhac =   res1.Count(X => X.ID_NhomBenh == 12 && X.NgayCapThuoc >= begind && X.NgayCapThuoc <= endd)
+                };
+                using (var workbook = new XLWorkbook(filePath))
+                {
+                    var worksheet = workbook.Worksheet(1);
+                    for (int i = 0; i < data.Count(); i++)
                     {
-                        row++; stt++; icol = 1; icol_ = 1;
+                        worksheet.Cell(i + 8, 5).Value = i + 1;
+                        worksheet.Cell(i + 8, 6).Value = data[i].pb;
+                        worksheet.Cell(i + 8, 7).Value = data[i].coutTong;
+                        worksheet.Cell(i + 8, 8).Value = data[i].countHH;
+                        worksheet.Cell(i + 8, 9).Value = data[i].countTH;
+                        worksheet.Cell(i + 8, 10).Value = data[i].countTuanHoan;
+                        worksheet.Cell(i + 8, 11).Value = data[i].countTMH;
+                        worksheet.Cell(i + 8, 12).Value = data[i].countMat;
+                        worksheet.Cell(i + 8, 13).Value = data[i].countDL;
+                        worksheet.Cell(i + 8, 14).Value = data[i].countKhop;
+                        worksheet.Cell(i + 8, 15).Value = data[i].countDU;
+                        worksheet.Cell(i + 8, 16).Value = data[i].countPM;
+                        worksheet.Cell(i + 8, 17).Value = data[i].countBN;
+                        worksheet.Cell(i + 8, 18).Value = data[i].countSot;
+                        worksheet.Cell(i + 8, 19).Value = data[i].countKhac;
 
-                        Worksheet.Cell(row, icol).Value = stt;
-                        Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                        Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-
-                        icol++;
-                        Worksheet.Cell(row, icol).Value = item.TenPhongBan;
-                        Worksheet.Cell(row, icol).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                        Worksheet.Cell(row, icol).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-
-                        for (int i = 0; i <= SoThang; i++)
-                        {
-                            DateTime Now = Begin.AddMonths(i);
-                            DateTime startDay = new DateTime(Now.Year, Now.Month, 1);
-                            DateTime endDay = startDay.AddMonths(1).AddDays(-1);
-
-                            icol_++;
-                            Worksheet.Cell(row_, (icol_ + 1)).Value = startDay.ToString("MM/yyyy");
-                            Worksheet.Cell(row_, (icol_ + 1)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                            Worksheet.Cell(row_, (icol_ + 1)).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                            Worksheet.Cell(row_, (icol_ + 1)).Style.Alignment.WrapText = true;
-
-
-                            var Count = _context.CapPhatThuoc.Where(x => x.ID_PhongBan == item.ID_PhongBan && x.NgayCapThuoc >= startDay && x.NgayCapThuoc <= endDay).Count();
-                            Worksheet.Cell(row, (icol_ + 1)).Value = Count;
-                            Worksheet.Cell(row, (icol_ + 1)).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left;
-                            Worksheet.Cell(row, (icol_ + 1)).Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
-                        }
                     }
+                    var range = worksheet.Range($"E{data.Count() + 8}:F{data.Count() + 8}");
+                    range.Merge();
+                    range.Value = "Tổng số Khu liên hợp";
+                    worksheet.Range($"E{data.Count + 8}:S{data.Count + 8}").Style.Fill.BackgroundColor = XLColor.FromArgb(70, 128, 255);
+                    worksheet.Range($"E{data.Count + 8}:S{data.Count + 8}").Style.Font.FontColor = XLColor.White;
 
-                    Worksheet.Range("A6:N" + (row)).Style.Font.SetFontName("Times New Roman");
-                    Worksheet.Range("A6:N" + (row)).Style.Font.SetFontSize(13);
-                    Worksheet.Range("A6:N" + (row)).Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
-                    Worksheet.Range("A6:N" + (row)).Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                    worksheet.Cell(data.Count() + 8, 7).Value = data1.coutTong;
+                    worksheet.Cell(data.Count() + 8, 8).Value = data1.countHH;
+                    worksheet.Cell(data.Count() + 8, 9).Value = data1.countTH;
+                    worksheet.Cell(data.Count() + 8, 10).Value = data1.countTuanHoan;
+                    worksheet.Cell(data.Count() + 8, 11).Value = data1.countTMH;
+                    worksheet.Cell(data.Count() + 8, 12).Value = data1.countMat;
+                    worksheet.Cell(data.Count() + 8, 13).Value = data1.countDL;
+                    worksheet.Cell(data.Count() + 8, 14).Value = data1.countKhop;
+                    worksheet.Cell(data.Count() + 8, 15).Value = data1.countDU;
+                    worksheet.Cell(data.Count() + 8, 16).Value = data1.countPM;
+                    worksheet.Cell(data.Count() + 8, 17).Value = data1.countBN;
+                    worksheet.Cell(data.Count() + 8, 18).Value = data1.countSot;
+                    worksheet.Cell(data.Count() + 8, 19).Value = data1.countKhac;
 
 
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "Thống kê KSK BNN - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+                    // Lưu lại file Excel
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        stream.Seek(0, SeekOrigin.Begin);
+                        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", path);
+                    }
                 }
-                else
-                {
 
 
-                    Workbook.SaveAs(fileNamemaunew);
-                    byte[] fileBytes = System.IO.File.ReadAllBytes(fileNamemaunew);
-                    string fileName = "Thống kê KSK BNN - " + DateTime.Now.Date.ToString("dd/MM/yyyy") + ".xlsx";
-                    return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
-                }
             }
             catch (Exception ex)
             {
