@@ -13,8 +13,8 @@ namespace QuanLyYTe.Models
         public string? Ytephutrach { get; set; }
         
         public DateTime? ThoiGianChuyenVien { get; set; }
-        public Nullable<int> TamUng { get; set; }
-        public Nullable<int> ThanhToan { get; set; }
+        public Nullable<decimal> TamUng { get; set; }
+        public Nullable<decimal> ThanhToan { get; set; }
         public string? ChungTu { get; set; }
         public string? ThoiGianDieuTri { get; set; }
     }

@@ -118,14 +118,14 @@
                                                     </td>
                                                     <td class="text-center">
                                                         @{
-                                                            int VND_TU = Convert.ToInt32(item.TamUng);
+                                                            decimal VND_TU = Convert.ToDecimal(item.TamUng);
                                                         }
 
                                                         @VND_TU.ToString("#,##0 VNĐ")
                                                     </td>
                                                     <td class="text-center">
                                                         @{
-                                                            int VND_TT = Convert.ToInt32(item.ThanhToan);
+                                                            decimal VND_TT = Convert.ToDecimal(item.ThanhToan);
                                                         }
 
                                                         @VND_TT.ToString("#,##0 VNĐ")

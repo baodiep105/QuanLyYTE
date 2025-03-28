@@ -29,8 +29,8 @@ namespace QuanLyYTe.Controllers
                                  TenBenhVien = a.TenBenhVien,
                                  Ytephutrach = a.Ytephutrach,
                                  ThoiGianChuyenVien = (DateTime?)a.ThoiGianChuyenVien ?? default,
-                                 TamUng = (int?)a.TamUng??default,
-                                 ThanhToan = (int?)a.ThanhToan??default,
+                                 TamUng = (decimal?)a.TamUng??default,
+                                 ThanhToan = (decimal?)a.ThanhToan??default,
                                  ChungTu = a.ChungTu,
                                  ThoiGianDieuTri = a.ThoiGianDieuTri
                              }).ToListAsync();
@@ -69,11 +69,11 @@ namespace QuanLyYTe.Controllers
                 {
                     new SqlParameter("@ID_SCC", SqlDbType.Int) { Value = id },
                     new SqlParameter("@ThuTu", SqlDbType.Int) { Value = count+1 },
-                    new SqlParameter("@TenBenhVien", SqlDbType.NVarChar, 500) { Value = _DO.TenBenhVien },
-                    new SqlParameter("@Ytephutrach", SqlDbType.NVarChar, 500) { Value = _DO.Ytephutrach },
-                    new SqlParameter("@ThoiGianChuyenVien", SqlDbType.Date) { Value = _DO.ThoiGianChuyenVien },
-                    new SqlParameter("@TamUng", SqlDbType.Int) { Value = _DO.TamUng },
-                    new SqlParameter("@ThanhToan", SqlDbType.Int) { Value = _DO.ThanhToan },
+                    new SqlParameter("@TenBenhVien", SqlDbType.NVarChar, 500) { Value = (object)_DO.TenBenhVien ??DBNull.Value},
+                    new SqlParameter("@Ytephutrach", SqlDbType.NVarChar, 500) { Value =(object) _DO.Ytephutrach ??DBNull.Value},
+                    new SqlParameter("@ThoiGianChuyenVien", SqlDbType.Date) { Value = (object)_DO.ThoiGianChuyenVien??DBNull.Value },
+                    new SqlParameter("@TamUng", SqlDbType.Decimal) { Value =(object)_DO.TamUng??DBNull.Value },
+                    new SqlParameter("@ThanhToan", SqlDbType.Decimal) { Value = (object)_DO.ThanhToan??DBNull.Value },
                    
                     new SqlParameter("@ThoiGianDieuTri", SqlDbType.NVarChar, 500) { Value = _DO.ThoiGianDieuTri }
                 };

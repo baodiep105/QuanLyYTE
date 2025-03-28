@@ -7,6 +7,7 @@ using ExcelDataReader;
 using System.Data;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Data.SqlClient;
 
 namespace QuanLyYTe.Controllers
 {
@@ -22,41 +23,30 @@ namespace QuanLyYTe.Controllers
         {
             var MNV = User.FindFirstValue(ClaimTypes.Name);
             var check = _context.TaiKhoan.Where(x => x.TenDangNhap == MNV).FirstOrDefault();
-            /*var res = await (from a in _context.SoTheoDoi_KSK
-                             join nv in _context.NhanVien on a.ID_NV equals nv.ID_NV
-                             join gt in _context.GioiTinh on a.ID_GioiTinh equals gt.ID_GioiTinh
-                             join vt in _context.ViTriLaoDong on a.ID_ViTriLaoDong equals vt.ID_ViTriLaoDong into ulist1
-                             from vt in ulist1.DefaultIfEmpty()
-                             join pl in _context.PhanLoaiThoiHan on a.ID_PhanLoai equals pl.ID_PhanLoai
-                             select new SoTheoDoi_KSK
-                             {
-                                 ID_STD = a.ID_STD,
-                                 ID_NV = (int)a.ID_NV,
-                                 MaNV = nv.MaNV,
-                                 HoTen = nv.HoTen,
-                                 CCCD = nv.CMND,
-                                 NgaySinh = (DateTime?)nv.NgaySinh ?? default,
-                                 NgayNhanViec = (DateTime?)nv.NgayVaoLam ?? default,
-                                 ID_ViTriLaoDong = (int?)a.ID_ViTriLaoDong??default,
-                                 TenViTriLaoDong = vt.TenViTriLaoDong,
-                                 ID_NhomMau = (int?)a.ID_NhomMau ?? default,
-                                 ID_GioiTinh = (int)a.ID_GioiTinh,
-                                 TenGioiTinh = gt.TenGioiTinh,
-                                 ID_PhanLoai = a.ID_PhanLoai,
-                                 TenLoai = pl.TenLoai
-                             }).ToListAsync();*/
+            var latestKSK = from k in _context.KSK_DinhKy
+                            group k by k.ID_NV into g
+                            select new
+                            {
+                                ID_NV = g.Key,
+                                LatestID_KSK = g.Max(x => x.ID_KSK_DK) // Lấy ID lớn nhất
+                            };
             var res = await(from a in _context.NhanVien 
                             join std in _context.SoTheoDoi_KSK on a.ID_NV equals std.ID_NV into stdtemp
                             from std in stdtemp.DefaultIfEmpty()
                             join plth in _context.PhanLoaiThoiHan on std.ID_PhanLoai equals plth.ID_PhanLoai into plthtemp
                             from plth in plthtemp.DefaultIfEmpty()
-                            join b in _context.KSK_DinhKy on a.ID_NV equals b.ID_NV into btemp
+                            join lk in latestKSK
+                            on a.ID_NV equals lk.ID_NV into lktmp
+                            from lk in lktmp.DefaultIfEmpty()
+                            join b in _context.KSK_DinhKy
+                                on new { a.ID_NV, ID_KSK = lk.LatestID_KSK }
+                                equals new { b.ID_NV, ID_KSK = b.ID_KSK_DK } into btemp
                             from b in btemp.DefaultIfEmpty()
                             join gt in _context.GioiTinh on b.ID_GioiTinh equals gt.ID_GioiTinh into gttemp
                             from gt in gttemp.DefaultIfEmpty()
                             join vt in _context.ViTriLamViec on a.ID_ViTri equals vt.ID_ViTri into ulist1
                             from vt in ulist1.DefaultIfEmpty()
-                            join pl in _context.PhanLoaiThoiHan on b.ID_PhanLoaiKSK equals pl.ID_PhanLoai into pltemp
+                            join pl in _context.PhanLoaiKSK on b.ID_PhanLoaiKSK equals pl.ID_PhanLoaiKSK into pltemp
                             from pl in pltemp.DefaultIfEmpty()
                             join nm in _context.NhomMau on b.ID_NhomMau equals nm.ID_NhomMau into nmtemp
                             from nm in nmtemp.DefaultIfEmpty()
@@ -66,7 +56,6 @@ namespace QuanLyYTe.Controllers
                                 ID_NV = (int)a.ID_NV,
                                 MaNV = a.MaNV,
                                 HoTen = a.HoTen,
-
                                 CCCD = a.CMND,
                                 NgaySinh = (DateTime?)a.NgaySinh ?? default,
                                 NgayNhanViec = (DateTime?)a.NgayVaoLam ?? default,
@@ -77,7 +66,7 @@ namespace QuanLyYTe.Controllers
                                 TenGioiTinh = gt.TenGioiTinh,
                               //  ID_PhanLoai = pl.ID_PhanLoai,
                                 TenLoai = plth.TenLoai,
-                                TenPLSK = pl.TenLoai
+                                TenPLSK = pl.TenLoaiKSK
 
                             }).ToListAsync();
 
@@ -203,18 +192,52 @@ namespace QuanLyYTe.Controllers
                                 return RedirectToAction("Index", "SoTheoDoi_KSK");
                             }
 
-                            var check_sdt = _context.SoTheoDoi_KSK.Where(x => x.ID_NV == check_nv.ID_NV).FirstOrDefault();
+                            var check_sdt = _context.SoTheoDoi_KSK.Where(x=>x.ID_NV==check_nv.ID_NV).FirstOrDefault();
                             if(check_sdt == null)
                             {
-                                var result = _context.Database.ExecuteSqlRaw("EXEC SoTheoDoi_KSK_insert {0},{1},{2},{3},{4},{5},{6},{7}",
+                                var parameters = new List<SqlParameter>
+                                {
+                                    new SqlParameter("@ID_NV", SqlDbType.Int) { Value = check_nv.ID_NV },
+                                    new SqlParameter("@ID_ViTriLaoDong", SqlDbType.Int) { Value = DBNull.Value },
+                                    new SqlParameter("@ID_PhongBan", SqlDbType.Int) { Value = DBNull.Value },
+                                    new SqlParameter("@ID_NhomMau", SqlDbType.Int) { Value = DBNull.Value },
+                                    new SqlParameter("@ID_GioiTinh", SqlDbType.Int) { Value = check_gt.ID_GioiTinh },
+                                    new SqlParameter("@ID_PhanLoai", SqlDbType.Int) { Value = check_pl.ID_PhanLoai },
+                                    new SqlParameter("@ThoiHanSKS_Truoc", SqlDbType.Date)
+                                        { Value = (object)DateTime.Now ?? DBNull.Value },  // Xử lý giá trị NULL
+                                    new SqlParameter("@ThoiHanSKS_TiepTheo", SqlDbType.Date)
+                                        { Value = (object)DateTime.Now ?? DBNull.Value }
+                                };
+
+                                await _context.Database.ExecuteSqlRawAsync(
+                                    "EXEC SoTheoDoi_KSK_insert @ID_NV, @ID_ViTriLaoDong, @ID_PhongBan, @ID_NhomMau, @ID_GioiTinh, @ID_PhanLoai, @ThoiHanSKS_Truoc, @ThoiHanSKS_TiepTheo",
+                                    parameters.ToArray()
+                                );
+                                /*var result = _context.Database.ExecuteSqlRaw("EXEC SoTheoDoi_KSK_insert {0},{1},{2},{3},{4},{5},{6},{7}",
                                                                                check_nv.ID_NV, null, null, null,
-                                                                               check_gt.ID_GioiTinh, check_pl.ID_PhanLoai, DateTime.Now, DateTime.Now);
+                                                                               check_gt.ID_GioiTinh, check_pl.ID_PhanLoai, DateTime.Now, DateTime.Now);*/
                             }
                             else
                             {
-                                var result = _context.Database.ExecuteSqlRaw("EXEC SoTheoDoi_KSK_update {0},{1},{2},{3},{4},{5},{6},{7},{8}",
-                                                                                check_sdt.ID_STD, check_nv.ID_NV, null, null,
-                                                                                null, check_gt.ID_GioiTinh, check_pl.ID_PhanLoai, check_sdt.ThoiHanSKS_Truoc, check_sdt.ThoiHanSKS_TiepTheo);
+                                var parameters = new List<SqlParameter>
+                                {
+                                    new SqlParameter("@ID_STD", SqlDbType.Int) { Value =check_sdt.ID_STD },
+                                    new SqlParameter("@ID_NV", SqlDbType.Int) { Value = check_nv.ID_NV },
+                                    new SqlParameter("@ID_ViTriLaoDong", SqlDbType.Int) { Value =DBNull.Value },
+                                    new SqlParameter("@ID_NhomMau", SqlDbType.Int) { Value = DBNull.Value },
+                                    new SqlParameter("@ID_GioiTinh", SqlDbType.Int) {Value= check_gt.ID_GioiTinh },
+                                    new SqlParameter("@ID_PhanLoai", SqlDbType.Int) { Value = check_pl.ID_PhanLoai },
+                                    new SqlParameter("@ThoiHanSKS_Truoc", SqlDbType.Date)
+                                        { Value = (object)check_sdt.ThoiHanSKS_Truoc ?? DBNull.Value },  // Xử lý NULL
+                                    new SqlParameter("@ThoiHanSKS_TiepTheo", SqlDbType.Date)
+                                        { Value = (object) check_sdt.ThoiHanSKS_TiepTheo ?? DBNull.Value }
+                                };
+
+                                await _context.Database.ExecuteSqlRawAsync(
+                                    "EXEC SoTheoDoi_KSK_update @ID_STD, @ID_NV, @ID_ViTriLaoDong, @ID_NhomMau, @ID_GioiTinh, @ID_PhanLoai, @ThoiHanSKS_Truoc, @ThoiHanSKS_TiepTheo",
+                                    parameters.ToArray()
+                                );
+                             
                             }    
                             //var result = _context.Database.ExecuteSqlRaw("EXEC SoTheoDoi_KSK_insert {0},{1},{2},{3},{4}",
                             // check_nv.ID_NV, check_vt.ID_ViTriLaoDong, null, check_gt.ID_GioiTinh, check_nv.NgayVaoLam, check_nv.NgayVaoLam);

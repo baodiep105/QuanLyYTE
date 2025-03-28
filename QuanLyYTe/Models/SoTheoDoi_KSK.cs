@@ -8,20 +8,20 @@ namespace QuanLyYTe.Models
     {
         [Key]
         public int ID_STD { get; set; }
-        public int ID_NV { get; set; }
+        public int? ID_NV { get; set; }
         public Nullable<int> ID_ViTriLaoDong { get; set; }
         [NotMapped]
         public string? TenViTriLaoDong { get; set; }
         [NotMapped]
         public string? TenLoai { get; set; }
-        public int ID_PhongBan { get; set; }
+        public int? ID_PhongBan { get; set; }
         [NotMapped]
         public string? TenPhongBan { get; set; }
         public Nullable< int> ID_NhomMau { get; set; }
         [NotMapped]
         public string? TenNhomMau { get; set; }
-        public int ID_GioiTinh { get; set; }
-        public int ID_PhanLoai { get; set; }
+        public int? ID_GioiTinh { get; set; }
+        public int? ID_PhanLoai { get; set; }
         [NotMapped]
         public string? TenGioiTinh { get; set; }
         public DateTime? ThoiHanSKS_Truoc { get; set; }
@@ -48,6 +48,7 @@ namespace QuanLyYTe.Models
         public string? TenPLSK { get; set; }
         [NotMapped]
         public int? idPLSK { get; set; }
+        
 
     }
 }
